@@ -51,6 +51,24 @@ void DirectXCommon::Initialize(WinApp* winApp)
 	{
 		assert(0);
 	}
+
+	//imguiヒープ呼び出し
+	HeapforImgui = CreateDescriptorHeapForImgui();
+	if (HeapforImgui==nullptr)
+	{
+		assert(0);
+		
+	}
+	if (ImGui::CreateContext() == nullptr)
+	{
+		assert(0);
+	}
+	if (!blenResult())
+	{
+		assert(0);
+	}
+	
+	
 }
 
 void DirectXCommon::PreDraw()
@@ -127,6 +145,26 @@ void DirectXCommon::ClearDepthBuffer()
 	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(dsvHeap->GetCPUDescriptorHandleForHeapStart());
 	// 深度バッファのクリア
 	commandList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+}
+
+ComPtr<ID3D12DescriptorHeap> DirectXCommon::GetHeapforImgui()
+{
+	return HeapforImgui;
+}
+
+ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescriptorHeapForImgui()
+{
+	ComPtr<ID3D12DescriptorHeap> ret;
+
+	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	desc.NodeMask = 0;
+	desc.NumDescriptors = 1;
+	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+
+	device->CreateDescriptorHeap(
+		&desc, IID_PPV_ARGS(ret.ReleaseAndGetAddressOf()));
+	return ret;
 }
 
 bool DirectXCommon::InitializeDXGIDevice()
@@ -401,3 +439,18 @@ bool DirectXCommon::CreateFence()
 
 	return true;
 }
+
+bool DirectXCommon::blenResult()
+{
+	HRESULT result = S_FALSE;
+
+	result = ImGui_ImplDX12_Init(
+		device.Get(),
+		3,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		GetHeapforImgui().Get(),
+		GetHeapforImgui()->GetCPUDescriptorHandleForHeapStart(),
+		GetHeapforImgui()->GetGPUDescriptorHandleForHeapStart());
+	return result;
+}
+

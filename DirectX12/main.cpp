@@ -21,7 +21,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ゲームウィンドウの作成
 	win = new WinApp();
 	win->CreateGameWindow();
-
+	win->blenResult();
 	//DirectX初期化処理
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(win);
@@ -48,7 +48,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 3Dオブジェクト静的初期化
 	//Object3d::StaticInitialize(dxCommon->GetDevice());
 	
-
+	
 	//オーディオ初期化
 	audio = new Audio();
 	if (!audio->Initialize())
@@ -80,18 +80,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion DirectX毎フレーム処理
 
 #pragma region グラフィックスコマンド
-
+		
 		//レンダーテクスチャへの描画
-		postEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		postEffect->PostDrawScene(dxCommon->GetCommandList());
+		//postEffect->PreDrawScene(dxCommon->GetCommandList());
+		
+		//postEffect->PostDrawScene(dxCommon->GetCommandList());
 		// 描画開始
 		dxCommon->PreDraw();
 		//ポストエフェクトの描画
-		postEffect->Draw(dxCommon->GetCommandList(),input);
+		//postEffect->Draw(dxCommon->GetCommandList(),input);
 		// ゲームシーンの描画
 		
-
+		gameScene->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
 

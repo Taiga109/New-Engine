@@ -40,6 +40,9 @@ public: // メンバ関数
 	/// <returns>終了かどうか</returns>
 	bool ProcessMessage();
 
+	//imgui初期化
+	bool  blenResult();
+	
 	/// <summary>
 	/// ウィンドウハンドルの取得
 	/// </summary>
@@ -51,6 +54,8 @@ public: // メンバ関数
 private: // メンバ変数
 	// Window関連
 	HWND hwnd = nullptr;	// ウィンドウハンドル
-	WNDCLASSEX wndClass{};			// ウィンドウクラス
+	WNDCLASSEX wndClass{};	// ウィンドウクラス
+	
+	
 };
 

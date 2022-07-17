@@ -7,8 +7,8 @@
 #include <d3dx12.h>
 
 #include "Model.h"
-#include "/my programs/DirectX12 Engine/DirectX12/Camera.h"
-#include "/my programs/DirectX12 Engine/DirectX12/Light.h"
+#include "Camera.h"
+#include "Light.h"
 
 class Object3d
 {

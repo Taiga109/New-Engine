@@ -6,6 +6,7 @@
 #include "Collision.h"
 #include "FBXLoader.h"
 #include "Object3dFBX.h"
+#include "imgui.h"
 
 
 using namespace DirectX;
@@ -68,7 +69,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	/*light = Light::Create();
 	light->SetLightColor({ 1,1,1 });*/
 	object1->PlayAnimation();
-
+	
+	
 }
 void GameScene::Update()
 {
@@ -82,7 +84,7 @@ void GameScene::Draw()
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-
+	
 #pragma region 背景スプライト描画
 	//// 背景スプライト描画前処理
 	//Sprite::PreDraw(cmdList);
@@ -95,7 +97,7 @@ void GameScene::Draw()
 	//// スプライト描画後処理
 	//Sprite::PostDraw();
 	//// 深度バッファクリア
-	//dxCommon->ClearDepthBuffer();
+	dxCommon->ClearDepthBuffer();
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
@@ -107,7 +109,19 @@ void GameScene::Draw()
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	//imgui 描画前処理
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	ImGui::Begin("Rendering Test Menu");
+	ImGui::SetWindowSize(
+		ImVec2(600, 800), ImGuiCond_::ImGuiCond_FirstUseEver
+	);
+	ImGui::End();
+	ImGui::Render();
+	cmdList->SetDescriptorHeaps(
+		1, dxCommon->GetHeapforImgui().GetAddressOf());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
 	// 3Dオブジェクト描画後処理
 	//Object3d::PostDraw();
 #pragma endregion
@@ -127,6 +141,7 @@ void GameScene::Draw()
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 
+	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion

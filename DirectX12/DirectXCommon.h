@@ -9,6 +9,10 @@
 
 #include "WinApp.h"
 
+#include "imgui.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx12.h"
+
 class DirectXCommon
 {
 private: // エイリアス
@@ -31,6 +35,9 @@ public: // メンバ関数
 	// 描画コマンドリストの取得
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList.Get(); }
 
+	//imgui用のヒープ取得
+	ComPtr<ID3D12DescriptorHeap> GetHeapforImgui();
+
 private: // メンバ変数
 	// ウィンドウズアプリケーション管理
 	WinApp* winApp;
@@ -49,6 +56,11 @@ private: // メンバ変数
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 
+	//imgui用のヒープ生成
+	ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeapForImgui();
+
+	//ヒープ保持用
+	ComPtr<ID3D12DescriptorHeap> HeapforImgui;
 private: // メンバ関数
 	// DXGIデバイス初期化
 	bool InitializeDXGIDevice();
@@ -62,4 +74,8 @@ private: // メンバ関数
 	bool CreateDepthBuffer();
 	// フェンス生成
 	bool CreateFence();
+
+	bool blenResult();
+
+	
 };

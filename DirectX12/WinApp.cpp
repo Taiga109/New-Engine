@@ -1,5 +1,7 @@
 ﻿#include "WinApp.h"
-
+#include "imgui.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx12.h"
 const wchar_t WinApp::windowClassName[] = L"A Hole newWorld";
 
 // ウィンドウプロシージャ
@@ -70,3 +72,20 @@ bool WinApp::ProcessMessage()
 
 	return false;
 }
+
+bool WinApp::blenResult()
+{	
+	if (ImGui::CreateContext()==nullptr)
+	{
+		assert(0);
+	}
+	bool blenresult = ImGui_ImplWin32_Init(hwnd);
+	
+	if (!blenresult)
+	{
+		assert(0);
+		return false;
+	}
+	return blenresult;
+}
+
