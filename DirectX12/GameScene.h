@@ -14,6 +14,7 @@
 #include "Camera.h"
 #include "DebugCamera.h"
 #include "Object3dFBX.h"
+#include "Light.h"
 //#include "Light.h"
 /// <summary>
 /// ゲームシーン
@@ -65,7 +66,7 @@ private: // メンバ変数
 	DebugCamera* camera = nullptr;
 	DebugText debugText;
 	Sprite* spriteBG = nullptr;
-	//Light* light = nullptr;
+	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
 	Object3dFBX* object1 = nullptr;
 	/// <summary>

@@ -8,6 +8,20 @@ cbuffer cbuff0 : register(b0)
 	float3 cameraPos;
 };
 
+cbuffer cbuff4 :register(b4)
+{
+	float3 m_ambient  : packoffset(c0); // アンビエント係数
+	float3 m_diffuse  : packoffset(c1); // ディフューズ係数
+	float3 m_specular : packoffset(c2); // スペキュラー係数
+	float m_alpha : packoffset(c2.w);   // アルファ
+};
+
+cbuffer cbuff5 :register(b5)
+{
+	float3 lightv;
+	float3 lightcolor;
+};
+
 cbuffer skinning:register(b3)
 {
 	matrix matSkinning[MAX_BONES];
@@ -26,6 +40,7 @@ struct VSInput
 struct VSOutput
 {
 	float4 svpos : SV_POSITION; // システム用頂点座標
+	float4 worldpos: POSITION;
 	float3 normal :NORMAL; // 法線ベクトル
 	float2 uv  :TEXCOORD; // uv値
 };

@@ -19,7 +19,7 @@ GameScene::~GameScene()
 {
 	//safe_delete(object1);
 	//safe_delete(model1);
-	////safe_delete(light);
+	safe_delete(light);
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -66,18 +66,24 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	camera->SetTarget({ 0,0,0 });
 	camera->SetDistance({ 20.0f});
-	/*light = Light::Create();
-	light->SetLightColor({ 1,1,1 });*/
+	light = Light::Create();
+	light->SetLightColor({ 1,1,1 });
+	Object3dFBX::SetLight(light);
 	object1->PlayAnimation();
 	
 	
 }
 void GameScene::Update()
 {
-	//light->Update();
+	light->Update();
 	
 	object1->Update();
 	camera->Update();
+	{
+		static XMVECTOR lightDir = { 0,1,5,0 };
+
+		light->SetLightDir(lightDir);
+	}
 }
 
 void GameScene::Draw()
@@ -110,7 +116,7 @@ void GameScene::Draw()
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//imgui 描画前処理
-	ImGui_ImplDX12_NewFrame();
+	/*ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	ImGui::Begin("Rendering Test Menu");
@@ -121,7 +127,7 @@ void GameScene::Draw()
 	ImGui::Render();
 	cmdList->SetDescriptorHeaps(
 		1, dxCommon->GetHeapforImgui().GetAddressOf());
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);*/
 	// 3Dオブジェクト描画後処理
 	//Object3d::PostDraw();
 #pragma endregion

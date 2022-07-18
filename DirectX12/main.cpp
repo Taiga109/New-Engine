@@ -5,7 +5,7 @@
 #include "fbxsdk.h"
 #include "FBXLoader.h"
 #include "PostEffect.h"
-
+#include "Light.h"
 
 //# Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -47,7 +47,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	postEffect->Initialize();
 	// 3Dオブジェクト静的初期化
 	//Object3d::StaticInitialize(dxCommon->GetDevice());
-	
+	//ライト静的初期化
+	Light::StaticInitialize(dxCommon->GetDevice());
 	
 	//オーディオ初期化
 	audio = new Audio();
