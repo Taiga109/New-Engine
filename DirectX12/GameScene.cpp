@@ -67,7 +67,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	camera->SetTarget({ 0,0,0 });
 	camera->SetDistance({ 20.0f});
 	light = Light::Create();
-	light->SetLightColor({ 1,1,1 });
+	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	Object3dFBX::SetLight(light);
 	object1->PlayAnimation();
 	

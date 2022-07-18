@@ -16,7 +16,7 @@ cbuffer cbuff4 :register(b4)
 	float m_alpha : packoffset(c2.w);   // ƒAƒ‹ƒtƒ@
 };
 
-cbuffer cbuff5 :register(b5)
+cbuffer cbuff5 :register(b8)
 {
 	float3 lightv;
 	float3 lightcolor;

@@ -35,12 +35,12 @@ PSOutput main(VSOutput input)
 	float3 diffuse = dotlightnormal * m_diffuse;
 	//ãæñ îΩéÀåı
 	float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
-
+	float alpha = m_alpha;
 	//çáê¨
-	shade_color.rgb = (ambient + diffuse + specular) * lightcolor;
-	shade_color.a = 1;
+	shade_color = float4((ambient + diffuse + specular).rgb * lightcolor.rgb, alpha);
+	
 
-	output.target0 = shade_color;
+	output.target0 = shade_color * texcolor;
 	//output.target1 = float4(1 - (shade_color * texcolor).rgb, 1);
 	return output;
 }

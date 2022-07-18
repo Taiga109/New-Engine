@@ -28,14 +28,15 @@ public:
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos;//カメラ座標
 	};
+
 	struct ConstBufferDataB4
 	{
-		XMFLOAT3 m_ambient ; // アンビエント係数
-		XMFLOAT3 m_diffuse; // ディフューズ係数
-		XMFLOAT3 m_specular ; // スペキュラー係数
-		float m_alpha;   // アルファ
+		XMFLOAT3 ambient; // アンビエント係数
+		XMFLOAT3 diffuse; // ディフューズ係数
+		XMFLOAT3 specular; // スペキュラー係数
+		float alpha;   // アルファ
 	};
-	
+
 	//ボーンの最大数
 	static const int MAX_BONES = 32;
 
@@ -45,11 +46,8 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
-	XMFLOAT3 ambient = { 1.0f, 0.5f, 1.0f }; //アンビエント影響度
-	XMFLOAT3 diffuse = { 0.0f, 0.0f, 0.0f }; //ディフューズ影響度
-	XMFLOAT3 specular = { 0.0f, 0.0f, 0.0f }; //スペキュラー影響度
-	float alpha = 1.0f; //アルファ
 	
+
 public: // 静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { Object3dFBX::device = device; }
@@ -70,7 +68,7 @@ private: // 静的メンバ変数
 	ComPtr<ID3D12Resource> constBuffSkin;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
-	
+
 public: //メンバ変数
 	void Initialize();
 
@@ -111,7 +109,11 @@ protected:
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
-	
-	
+public:
+	XMFLOAT3 ambient = { 0.0f, 0.0f, 0.0f }; //アンビエント影響度
+	XMFLOAT3 diffuse = { 0.0f, 0.0f, 0.0f }; //ディフューズ影響度
+	XMFLOAT3 specular = { 1.0f, 1.0f, 1.0f }; //スペキュラー影響度
+	float alpha = 1.0f; //アルファ
+
 };
 
