@@ -5,7 +5,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+#include "/K020G1219/my Engine/DirectX12/Light.h"
+#include "/K020G1219/my Engine/DirectX12/Camera.h"
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace DirectX;

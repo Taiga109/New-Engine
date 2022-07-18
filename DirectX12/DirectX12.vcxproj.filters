@@ -122,17 +122,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\Basic.hlsli">
-      <Filter>シェーダー</Filter>
-    </None>
     <None Include="Resources\Shaders\Object3d.hlsli">
       <Filter>シェーダー</Filter>
     </None>
     <None Include="Resources\Shaders\Sprite.hlsli">
       <Filter>シェーダー</Filter>
-    </None>
-    <None Include="Resources\Shaders\FBX.hlsli">
-      <Filter>リソース ファイル\FBX</Filter>
     </None>
     <None Include="Resources\Shaders\OBJShaderHeader.hlsli">
       <Filter>リソース ファイル\OBJ</Filter>
@@ -140,14 +134,11 @@
     <None Include="Resources\Shaders\PostEffect.hlsli">
       <Filter>シェーダー</Filter>
     </None>
+    <None Include="Resources\Shaders\FBX.hlsli">
+      <Filter>シェーダー</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\BasicVS.hlsl">
-      <Filter>シェーダー</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\BasicPS.hlsl">
-      <Filter>シェーダー</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\Object3dVS.hlsl">
       <Filter>シェーダー</Filter>
     </FxCompile>
@@ -160,12 +151,6 @@
     <FxCompile Include="Resources\Shaders\SpriteVS.hlsl">
       <Filter>シェーダー</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\FBXPS.hlsl">
-      <Filter>リソース ファイル\FBX</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
-      <Filter>リソース ファイル\FBX</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\OBJPixelShader.hlsl">
       <Filter>リソース ファイル\OBJ</Filter>
     </FxCompile>
@@ -176,6 +161,12 @@
       <Filter>シェーダー</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffectVS.hlsl">
+      <Filter>シェーダー</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXPS.hlsl">
+      <Filter>シェーダー</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
       <Filter>シェーダー</Filter>
     </FxCompile>
   </ItemGroup>

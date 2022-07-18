@@ -1,6 +1,6 @@
 #pragma once
 #include "FbxModel.h"
-#include "Camera.h"
+#include "/K020G1219/my Engine/DirectX12/Camera.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-#include "Light.h"
+#include "/K020G1219/my Engine/DirectX12/Light.h"
 
 class Object3dFBX
 {

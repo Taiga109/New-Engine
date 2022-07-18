@@ -46,18 +46,6 @@ void Object3dFBX::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuff)
 	);
-
-	ConstBufferDataB4* constMap4 = nullptr;
-	result = constBuff->Map(0, nullptr, (void**)&constMap4);
-	if (SUCCEEDED(result))
-	{
-		constMap4->ambient = ambient;
-		constMap4->diffuse = diffuse;
-		constMap4->specular = specular;
-		constMap4->alpha = alpha;
-
-	}
-	constBuff->Unmap(0, nullptr);
 	// 定数バッファ(スキン)へデータ転送
 	ConstBufferDataSkin* constMatSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMatSkin);
@@ -101,7 +89,17 @@ void Object3dFBX::Update()
 	constMap->cameraPos = cameraPos;
 	constBuffTransform->Unmap(0, nullptr);
 
-	
+	ConstBufferDataB4* constMap4 = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMap4);
+	if (SUCCEEDED(result))
+	{
+		constMap4->ambient = ambient;
+		constMap4->diffuse = diffuse;
+		constMap4->specular = specular;
+		constMap4->alpha = alpha;
+		
+	}
+	constBuff->Unmap(0, nullptr);
 	//ボーン配列
 	std::vector<FbxModel::Bone>& bones = model->GetBones();
 	//アニメーション
