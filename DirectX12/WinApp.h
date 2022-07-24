@@ -40,9 +40,6 @@ public: // メンバ関数
 	/// <returns>終了かどうか</returns>
 	bool ProcessMessage();
 
-	//imgui初期化
-	bool  blenResult();
-	
 	/// <summary>
 	/// ウィンドウハンドルの取得
 	/// </summary>

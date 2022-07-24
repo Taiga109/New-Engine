@@ -52,23 +52,13 @@ void DirectXCommon::Initialize(WinApp* winApp)
 		assert(0);
 	}
 
-	//imguiヒープ呼び出し
-	HeapforImgui = CreateDescriptorHeapForImgui();
-	if (HeapforImgui==nullptr)
-	{
-		assert(0);
-		
-	}
-	if (ImGui::CreateContext() == nullptr)
+	////imguiヒープ呼び出し
+	//HeapforImgui = CreateDescriptorHeapForImgui();
+
+	if (!InitializeImgui())
 	{
 		assert(0);
 	}
-	if (!blenResult())
-	{
-		assert(0);
-	}
-	
-	
 }
 
 void DirectXCommon::PreDraw()
@@ -95,10 +85,20 @@ void DirectXCommon::PreDraw()
 	commandList->RSSetViewports(1, &CD3DX12_VIEWPORT(0.0f, 0.0f, WinApp::window_width, WinApp::window_height));
 	// シザリング矩形の設定
 	commandList->RSSetScissorRects(1, &CD3DX12_RECT(0, 0, WinApp::window_width, WinApp::window_height));
+
+	//imgui 描画前処理
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 }
 
 void DirectXCommon::PostDraw()
 {
+	ImGui::Render();
+	ID3D12DescriptorHeap* ppHeaps[] = { imguiHeap.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
+
 	// リソースバリアを変更（描画対象→表示状態）
 	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
 	commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffers[bbIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
@@ -440,17 +440,49 @@ bool DirectXCommon::CreateFence()
 	return true;
 }
 
-bool DirectXCommon::blenResult()
+bool DirectXCommon::InitializeImgui()
 {
 	HRESULT result = S_FALSE;
 
-	result = ImGui_ImplDX12_Init(
-		device.Get(),
-		3,
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		GetHeapforImgui().Get(),
-		GetHeapforImgui()->GetCPUDescriptorHandleForHeapStart(),
-		GetHeapforImgui()->GetGPUDescriptorHandleForHeapStart());
-	return result;
+	// デスクリプタヒープを生成
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	heapDesc.NumDescriptors = 1;
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	result = device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&imguiHeap));
+	if (FAILED(result)) {
+		assert(0);
+		return false;
+	}
+
+	// スワップチェーンの情報を取得
+	DXGI_SWAP_CHAIN_DESC swcDesc = {};
+	result = swapchain->GetDesc(&swcDesc);
+	if (FAILED(result)) {
+		assert(0);
+		return false;
+	}
+
+	if (ImGui::CreateContext() == nullptr) {
+		assert(0);
+		return false;
+	}
+	if (!ImGui_ImplWin32_Init(winApp->GetHwnd())) {
+		assert(0);
+		return false;
+	}
+	if (!ImGui_ImplDX12_Init(
+		GetDevice(),
+		swcDesc.BufferCount,
+		swcDesc.BufferDesc.Format,
+		imguiHeap.Get(),
+		imguiHeap->GetCPUDescriptorHandleForHeapStart(),
+		imguiHeap->GetGPUDescriptorHandleForHeapStart()
+	)) {
+		assert(0);
+		return false;
+	}
+
+	return true;
 }
 
