@@ -116,18 +116,16 @@ void GameScene::Draw()
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//imgui 描画前処理
-	/*ImGui_ImplDX12_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	
 	ImGui::Begin("Rendering Test Menu");
-	ImGui::SetWindowSize(
-		ImVec2(600, 800), ImGuiCond_::ImGuiCond_FirstUseEver
-	);
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	/*ImGui::SetWindowSize(
+		ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
+	);*/
+	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::End();
-	ImGui::Render();
-	cmdList->SetDescriptorHeaps(
-		1, dxCommon->GetHeapforImgui().GetAddressOf());
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);*/
+	
+
 	// 3Dオブジェクト描画後処理
 	//Object3d::PostDraw();
 #pragma endregion

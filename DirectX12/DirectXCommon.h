@@ -9,9 +9,9 @@
 
 #include "WinApp.h"
 
-#include "imgui.h"
-#include "imgui_impl_win32.h"
-#include "imgui_impl_dx12.h"
+
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
 
 class DirectXCommon
 {
@@ -56,6 +56,8 @@ private: // メンバ変数
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 
+
+	ComPtr<ID3D12DescriptorHeap> imguiHeap;
 	//imgui用のヒープ生成
 	ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeapForImgui();
 
@@ -74,8 +76,7 @@ private: // メンバ関数
 	bool CreateDepthBuffer();
 	// フェンス生成
 	bool CreateFence();
-
-	bool blenResult();
-
+	//imgui初期化
+	bool InitializeImgui();
 	
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include "FbxModel.h"
-#include "/K020G1219/my Engine/DirectX12/Camera.h"
+#include "Camera.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-#include "/K020G1219/my Engine/DirectX12/Light.h"
+#include "Light.h"
 
 class Object3dFBX
 {
@@ -21,6 +21,23 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	struct Material
+	{
+
+		XMFLOAT3 ambient; //アンビエント影響度
+		XMFLOAT3 diffuse; //ディフューズ影響度
+		XMFLOAT3 specular; //スペキュラー影響度
+		float alpha; //アルファ
+
+		Material()
+		{
+			ambient = { 0.3f, 0.3f, 0.3f }; //アンビエント影響度
+			diffuse = { 0.0f, 0.0f, 0.0f }; //ディフューズ影響度
+			specular = { 0.0f, 0.0f, 0.0f }; //スペキュラー影響度
+			alpha = 1.0f; //アルファ
+		}
+	};
+
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
@@ -69,6 +86,9 @@ private: // 静的メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 
+	// マテリアル
+	Material material;
+
 public: //メンバ変数
 	void Initialize();
 
@@ -111,10 +131,6 @@ protected:
 	//アニメーション再生中
 	bool isPlay = false;
 public:
-	XMFLOAT3 ambient = { 0.0f, 0.0f, 0.0f }; //アンビエント影響度
-	XMFLOAT3 diffuse = { 0.0f, 0.0f, 0.0f }; //ディフューズ影響度
-	XMFLOAT3 specular = { 1.0f, 1.0f, 1.0f }; //スペキュラー影響度
-	float alpha = 1.0f; //アルファ
 
 };
 

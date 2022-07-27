@@ -21,7 +21,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ゲームウィンドウの作成
 	win = new WinApp();
 	win->CreateGameWindow();
-	win->blenResult();
 	//DirectX初期化処理
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(win);
