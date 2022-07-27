@@ -38,7 +38,7 @@ public:
 	};
 
 	//ボーンの最大数
-	static const int MAX_BONES = 32;
+	static const int MAX_BONES = 64;
 
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -46,7 +46,7 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
-	
+
 
 public: // 静的メンバ関数
 	//setter
@@ -89,8 +89,9 @@ public: //メンバ変数
 protected:
 	ComPtr<ID3D12Resource> constBuffTransform;
 	static Light* light;
+	float s = 0.01;
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale = { s,s,s };
 	// X,Y,Z軸回りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
