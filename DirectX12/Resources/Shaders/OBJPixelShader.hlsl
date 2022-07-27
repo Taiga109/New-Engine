@@ -27,5 +27,6 @@ float4 main(VSOutput input) : SV_TARGET
 	shadecolor.rgb = (ambient + diffuse + specular) * lightcolor;
 	shadecolor.a = m_alpha;
 	//シェーディングによる色で描画
-	return shadecolor * texcolor;
+	//return shadecolor * texcolor;
+	return  texcolor;
 }

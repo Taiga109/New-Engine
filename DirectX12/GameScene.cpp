@@ -20,6 +20,8 @@ GameScene::~GameScene()
 	//safe_delete(object1);
 	//safe_delete(model1);
 	safe_delete(light);
+	safe_delete(object);
+	safe_delete(model);
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -31,7 +33,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 	this->dxCommon = dxCommon;
 	this->input = input;
-
+	// 3Dオブジェクトにカメラをセット
+	Object3d::SetCamera(camera);
 	Object3dFBX::SetDevice(dxCommon->GetDevice());
 	Object3dFBX::SetCamera(camera);
 	Object3dFBX::CreateGraphicsPipeline();
@@ -59,26 +62,70 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 背景スプライト生成
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//.objの名前を指定してモデルを読み込む
+	model = model->CreateFromObj("sphere");
+	model2 = model2->CreateFromObj("sphere");
 	// 3Dオブジェクト生成
+	object = Object3d::Create(model);
+	object2 = Object3d::Create(model2);
+	//object->SetModel(model);
 	object1 = new Object3dFBX;
 	object1->Initialize();
 	object1->SetModel(model1);
 
 	camera->SetTarget({ 0,0,0 });
-	camera->SetDistance({ 20.0f});
+	camera->SetDistance({ 60 });
 	light = Light::Create();
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	Object3dFBX::SetLight(light);
 	object1->PlayAnimation();
-	
-	
+
+	object->SetPosition({ -15.0f, 0.0f, 0.0f });
+	object2->SetPosition({ 5.0f, 0.0f, 0.0f });
+	float s = 1.0;
+	object->SetScale({ s, s, s });
+	object2->SetScale({ s, s, s });
 }
 void GameScene::Update()
 {
-	light->Update();
+	XMFLOAT3 obj1_pos =
+		object->GetPosition();
+	XMFLOAT3 obj2_pos =
+		object2->GetPosition();
+	if (input->PushKey(DIK_SPACE))
+	{
+		start = true;
+	}
+	if (start==true)
+	{
+		if (obj1_pos.x <= obj2_pos.x - 1.0 && flag == false)
+		{
+			obj1_pos.x += a;
+			obj2_pos.x += a2;
+			//obj2_pos.x -= a;
+		}
+
+		else
+		{
+			flag = true;
+			a2 = m1 * a / m2;
+			v1 = (m1 * -0.1) / (m1 + m2);
+			obj1_pos.x += v1;
+			obj2_pos.x += a2;
+		}
+	}
 	
-	object1->Update();
+
+	object->SetPosition(obj1_pos);
+	object2->SetPosition(obj2_pos);
+
 	camera->Update();
+	light->Update();
+	object->Update();
+	object2->Update();
+
+	object1->Update();
+
 	{
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
@@ -90,7 +137,7 @@ void GameScene::Draw()
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-	
+
 #pragma region 背景スプライト描画
 	//// 背景スプライト描画前処理
 	//Sprite::PreDraw(cmdList);
@@ -108,15 +155,19 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	//Object3d::PreDraw(cmdList);
+	Object3d::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
-	object1->Draw(cmdList);
+	// 
+	//object1->Draw(cmdList);
+	object->Draw();
+
+	object2->Draw();
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//imgui 描画前処理
-	
+
 	ImGui::Begin("Rendering Test Menu");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	/*ImGui::SetWindowSize(
@@ -124,10 +175,10 @@ void GameScene::Draw()
 	);*/
 	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::End();
-	
+
 
 	// 3Dオブジェクト描画後処理
-	//Object3d::PostDraw();
+	Object3d::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
@@ -145,7 +196,7 @@ void GameScene::Draw()
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 
-	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion

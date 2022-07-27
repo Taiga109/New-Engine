@@ -5,7 +5,7 @@
 #include <DirectXMath.h>
 #include "Input.h"
 #include "Sprite.h"
-//#include "Object3d.h"
+#include "Object3d.h"
 #include "DebugText.h"
 #include "CollisionPrimitive.h"
 #include <stdlib.h>
@@ -15,7 +15,8 @@
 #include "DebugCamera.h"
 #include "Object3dFBX.h"
 #include "Light.h"
-//#include "Light.h"
+#include "Model.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -69,11 +70,23 @@ private: // メンバ変数
 	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
 	Object3dFBX* object1 = nullptr;
+	Object3d* object = nullptr;
+	Model* model = nullptr;
+
+	Object3d* object2 = nullptr;
+	Model* model2 = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 	
-
-	
+	int time = 0;
+	float m1 = 5;
+	float m2 = 10;
+	float a = 0.5;
+	float v1 = 0;
+	float v2 = 0;
+	bool flag = false;
+	float a2 = 0.1;
+	bool start = false;
 };
 
