@@ -15,6 +15,9 @@
 #include "DebugCamera.h"
 #include "Object3dFBX.h"
 #include "Light.h"
+#include "player.h"
+#include "Object3d.h"
+
 //#include "Light.h"
 /// <summary>
 /// ゲームシーン
@@ -48,7 +51,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Input* input,Audio* audio);
+	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -60,20 +63,37 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void move(Input* input);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
-	DebugCamera* camera = nullptr;
+	DebugCamera* Dcamera = nullptr;
+	Camera* camera = nullptr;
 	DebugText debugText;
 	Sprite* spriteBG = nullptr;
 	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
 	Object3dFBX* object1 = nullptr;
+	player* player = nullptr;
+
+	Model* dome = nullptr;
+	Object3d* domeobj = nullptr;
+	Model* groundmodel = nullptr;
+	Object3d* groundobj = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	
 
+	XMFLOAT3 scale = { 0.1,0.1,0.1 };
+	XMFLOAT3 pos;
+	bool atackani = false;
+	bool moveani = false;
+	int animeNum = 4;
+	int beforanimeNun = animeNum;
+	int count = 0;
+	int Endtime = 120;
+	
 	
 };
 

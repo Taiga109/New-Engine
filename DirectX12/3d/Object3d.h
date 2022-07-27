@@ -73,7 +73,7 @@ private: // 静的メンバ変数
 	static Camera* camera;
 
 private:// 静的メンバ関数
-	
+
 public: // メンバ関数
 	bool Initialize();
 	// 毎フレーム処理
@@ -104,7 +104,7 @@ private: // メンバ変数
 	// X,Y,Z軸回りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,-15,0 };
+	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト

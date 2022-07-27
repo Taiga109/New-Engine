@@ -116,6 +116,9 @@ void Object3dFBX::Update()
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
 	for (int i = 0; i < bones.size(); i++)
 	{
+		XMMATRIX globalTransform = model->GetModelTransform();
+		XMMATRIX invglobalTransform = XMMatrixInverse(nullptr, globalTransform);
+
 		//今の姿勢行列
 		XMMATRIX matCurrendPose;
 		//今の姿勢行列を取得
@@ -124,7 +127,7 @@ void Object3dFBX::Update()
 		//XMMATRIXに変換
 		FBXLoader::ConvertMatrixFromFbx(&matCurrendPose, fbxCurrentPose);
 		//合成してスキニング行列に
-		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrendPose;
+		constMapSkin->bones[i] = globalTransform*bones[i].invInitialPose * matCurrendPose*invglobalTransform;
 	}
 	constBuffSkin->Unmap(0, nullptr);
 }
@@ -154,24 +157,41 @@ void Object3dFBX::Draw(ID3D12GraphicsCommandList* cmdList)
 	model->Draw(cmdList);
 }
 
-void Object3dFBX::PlayAnimation()
+void Object3dFBX::PlayAnimation(int AnimationNumber)
 {
+	
 	FbxScene* fbxScene = model->GetFbxScene();
-	//0番のアニメーション取得
-	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
-	//アニメーションの名前取得
-	const char* animstackname = animstack->GetName();
-	//アニメーションの時間情報
-	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+	//アニメーションの変更
+	fbxScene->SetCurrentAnimationStack(AnimationData[AnimationNumber].Animstack);
 	//開始時間取得
-	startTime = takeinfo->mLocalTimeSpan.GetStart();
+	startTime = AnimationData[AnimationNumber].Takeinfo->mLocalTimeSpan.GetStart();
 	//終了時間取得
-	endTime = takeinfo->mLocalTimeSpan.GetStop();
+	endTime = AnimationData[AnimationNumber].Takeinfo->mLocalTimeSpan.GetStop();
 	//開始時間に合わせる
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
 
+}
+
+void Object3dFBX::iniAnimation()
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	//アニメーションカウント
+	int SceneCount = fbxScene->GetSrcObjectCount<FbxAnimStack>();
+	for (int i = 0; i < SceneCount; i++) {
+		//データ
+		Animation Data;
+		//0番のアニメーション取得
+		Data.Animstack = fbxScene->GetSrcObject<FbxAnimStack>(i);
+		//アニメーションの名前を取得
+		const char* animstackname = Data.Animstack->GetName();
+		//アニメーションの時間情報
+		Data.Takeinfo = fbxScene->GetTakeInfo(animstackname);
+		//仮データを実データに入れる
+		AnimationData.push_back(Data);
+	}
+	
 }
 
 void Object3dFBX::CreateGraphicsPipeline()

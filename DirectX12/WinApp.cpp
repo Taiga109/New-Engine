@@ -2,7 +2,7 @@
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx12.h"
-const wchar_t WinApp::windowClassName[] = L"A Hole newWorld";
+const wchar_t WinApp::windowClassName[] = L"WASD:move L/R Click atack";
 
 // ウィンドウプロシージャ
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -1,5 +1,4 @@
 ﻿#include "GameScene.h"
-#include "Model.h"
 #include <cassert>
 #include <sstream>
 #include <iomanip>
@@ -7,7 +6,9 @@
 #include "FBXLoader.h"
 #include "Object3dFBX.h"
 #include "imgui.h"
+#include "Object3d.h"
 
+//skydome
 
 using namespace DirectX;
 
@@ -19,6 +20,8 @@ GameScene::~GameScene()
 {
 	//safe_delete(object1);
 	//safe_delete(model1);
+	safe_delete(dome);
+	safe_delete(domeobj);
 	safe_delete(light);
 }
 
@@ -28,7 +31,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	assert(dxCommon);
 	assert(input);
 	// カメラ生成
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+	Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+	camera = new Camera(WinApp::window_width, WinApp::window_height);
 	this->dxCommon = dxCommon;
 	this->input = input;
 
@@ -58,27 +62,172 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	}
 	// 背景スプライト生成
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
-	model1 = FBXLoader::GetInstance()->LoadModelFromFile("boneTest");
+	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
+
+
 	// 3Dオブジェクト生成
 	object1 = new Object3dFBX;
 	object1->Initialize();
 	object1->SetModel(model1);
 
-	camera->SetTarget({ 0,0,0 });
-	camera->SetDistance({ 20.0f});
+	dome = dome->CreateFromObj("skydome");
+	domeobj = Object3d::Create(dome);
+	domeobj->SetCamera(camera);
+	domeobj->SetLight(light);
+
+	groundmodel = groundmodel->CreateFromObj("ground");
+	groundobj = Object3d::Create(groundmodel);
+	groundobj->SetCamera(camera);
+	groundobj->SetLight(light);
+	//player->Initialize(object1, model1);
+	
+	//camera->SetDistance({ 50.0f });
+	camera->SetEye({ 0,60,-70 });
+	camera->SetTarget({ 0,1,0 });
+	camera->SetUp({ 0,1,0 });
 	light = Light::Create();
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 	Object3dFBX::SetLight(light);
-	object1->PlayAnimation();
-	
-	
+	object1->iniAnimation();
+	object1->PlayAnimation(animeNum);
+	//0 パンチ1アッパー　
+	//2横蹴り3蹴り
+	//4 idol
+	//5手を振る
+	//6歩き
+	domeobj->SetPosition({ 0,0,0 });
+	//domeobj->SetScale({ 1,1,1 });
+	object1->SetScale(scale);
+
+
 }
 void GameScene::Update()
 {
+	groundobj->Update();
+	domeobj->Update();
 	light->Update();
-	
+	//player->update(object1, input);
 	object1->Update();
 	camera->Update();
+	pos = object1->GetPos();
+	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
+		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
+	{
+		if (input->PushKey(DIK_D))
+		{
+			if (input->PushKey(DIK_W))
+			{
+				object1->SetRotation({ 0,45,0 });
+			}
+			else if (input->PushKey(DIK_S))
+			{
+				object1->SetRotation({ 0,135,0 });
+			}
+			else
+			{
+				object1->SetRotation({ 0,90,0 });
+			}
+			
+		}
+		else if (input->PushKey(DIK_A))
+		{
+			if (input->PushKey(DIK_W))
+			{
+				object1->SetRotation({ 0,-45,0 });
+			}
+			else if (input->PushKey(DIK_S))
+			{
+				object1->SetRotation({ 0,-135,0 });
+			}
+			else
+			{
+				object1->SetRotation({ 0,-90,0 });
+			}
+		}
+		else if (input->PushKey(DIK_W))
+		{
+			object1->SetRotation({ 0,0,0 });
+		}
+		else if (input->PushKey(DIK_S))
+		{
+			object1->SetRotation({ 0,180,0 });
+		}
+
+		move(input);
+	}
+	//移動終わったら変更
+	else if (moveani == true && animeNum == 6)
+	{
+		moveani = false;
+		animeNum = 4;
+	}
+	//移動中なら変える
+	if (moveani)
+	{
+		animeNum = 6;
+	}
+
+	//攻撃１
+	{
+		if (input->TriggerMouse(Left) && atackani == false)
+		{
+			atackani = true;
+			animeNum = 0;
+		}
+		else if (atackani == true && input->TriggerMouse(Left))
+		{
+			if (beforanimeNun == 0)
+			{
+				animeNum = 1;
+				count = 0;
+			}
+			else if (beforanimeNun == 1)
+			{
+				animeNum = 0;
+				count = 0;
+			}
+
+		}
+		else if (atackani == true && count > Endtime)
+		{
+			atackani = false;
+			count = 0;
+			animeNum = 4;
+		}
+		if (atackani == true)
+		{
+			count++;
+		}
+	}
+	//攻撃２
+	{
+		if (input->TriggerMouse(Right) && atackani == false)
+		{
+			atackani = true;
+			animeNum = 2;
+		}
+		else if (atackani == true && input->TriggerMouse(Right))
+		{
+			if (beforanimeNun == 2)
+			{
+				animeNum = 3;
+				count = 0;
+			}
+			else if (beforanimeNun == 3)
+			{
+				animeNum = 2;
+				count = 0;
+			}
+
+		}
+	}
+	//アニメーション番号変更
+	if (beforanimeNun != animeNum)
+	{
+		object1->PlayAnimation(animeNum);
+		beforanimeNun = animeNum;
+	}
+	object1->SetPosition(pos);
 	{
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
@@ -90,7 +239,7 @@ void GameScene::Draw()
 {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
-	
+
 #pragma region 背景スプライト描画
 	//// 背景スプライト描画前処理
 	//Sprite::PreDraw(cmdList);
@@ -108,26 +257,29 @@ void GameScene::Draw()
 
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
-	//Object3d::PreDraw(cmdList);
+	Object3d::PreDraw(cmdList);
 
 	// 3Dオブクジェクトの描画
+	domeobj->Draw();
 	object1->Draw(cmdList);
+	groundobj->Draw();
+	//player->Draw(object1,cmdList);
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	//imgui 描画前処理
-	
-	ImGui::Begin("Rendering Test Menu");
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	/*ImGui::SetWindowSize(
-		ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
-	);*/
-	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::End();
-	
+
+	//ImGui::Begin("Rendering Test Menu");
+	//ImGui::SetWindowPos(ImVec2(0, 0));
+	///*ImGui::SetWindowSize(
+	//	ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
+	//);*/
+	//ImGui::SetWindowSize(ImVec2(500, 200));
+	//ImGui::End();
+
 
 	// 3Dオブジェクト描画後処理
-	//Object3d::PostDraw();
+	Object3d::PostDraw();
 #pragma endregion
 
 #pragma region 前景スプライト描画
@@ -145,9 +297,31 @@ void GameScene::Draw()
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
 
-	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
+}
+
+void GameScene::move(Input* input)
+{
+	moveani = true;
+	float moveSpead = 0.1;
+	if (input->PushKey(DIK_A))	//左
+	{
+		pos.x -= moveSpead;
+	}
+	else if (input->PushKey(DIK_D))	//右
+	{
+		pos.x += moveSpead;
+	}
+	if (input->PushKey(DIK_S))	//後ろ
+	{
+		pos.z -= moveSpead;
+	}
+	else if (input->PushKey(DIK_W))	//前
+	{
+		pos.z += moveSpead;
+	}
 }
 

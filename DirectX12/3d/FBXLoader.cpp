@@ -3,6 +3,7 @@
 #include "FbxModel.h"
 #include <string>
 
+
 using namespace DirectX;
 
 const std::string FBXLoader::defaultTextureFileName = "white1x1.png";
@@ -185,7 +186,7 @@ void FBXLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxmesh)
 					uvNames[0], uvs, lUnmappedUV))
 				{
 					vertex.uv.x = (float)uvs[0];
-					vertex.uv.y = (float)uvs[1];
+					vertex.uv.y = (float)uvs[1] * -1.0f;
 				}
 			}
 			//インデックス配列に頂点インデックス追加
@@ -328,6 +329,9 @@ void FBXLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 		//自作ボーンとFBXのボーンを紐づける
 		bone.fbxcluster = fbxCluster;
 
+		XMMATRIX globalTransform = model->GetModelTransform();
+		XMMATRIX invglobalTransform = XMMatrixInverse(nullptr, globalTransform);
+
 		//FBXから初期姿勢行列を取得する
 		FbxAMatrix fbxMat;
 		fbxCluster->GetTransformLinkMatrix(fbxMat);
@@ -335,9 +339,13 @@ void FBXLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 		//XMMatrix型に変換する
 		XMMATRIX initialPose;
 		ConvertMatrixFromFbx(&initialPose, fbxMat);
-
+		//initialPose *= globalTransform;
+		//initialPose = XMMatrixMultiply(initialPose, globalTransform);
+		
 		//初期姿勢行列の逆行列を得る
-		bone.invInitialPose = XMMatrixInverse(nullptr, initialPose);
+		XMMATRIX InvinitialPose;
+		InvinitialPose = XMMatrixInverse(nullptr, initialPose);
+		bone.invInitialPose = InvinitialPose;
 	}
 
 	//ボーン番号とスキンウェイトのペア
@@ -398,7 +406,7 @@ void FBXLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 			weightList.resize(4);
 		}*/
 		int weightArrayIndex = 0;
-
+		
 		//降順ソート済みのウェイトリストから
 		for (auto& weightSet : weightList)
 		{

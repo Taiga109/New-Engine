@@ -24,7 +24,7 @@ void DebugCamera::Update()
 	Input::MouseMove mouseMove = input->GetMouseMove();
 	
 	// マウスの左ボタンが押されていたらカメラを回転させる
-	if (input->PushMouse(Left))
+	/*if (input->PushMouse(Left))
 	{
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
@@ -32,7 +32,7 @@ void DebugCamera::Update()
 		angleX = -dx * XM_PI;
 		angleY = -dy * XM_PI;
 		dirty = true;
-	}
+	}*/
 
 	// マウスの中ボタンが押されていたらカメラを並行移動させる
 	if (input->PushMouse(Center))

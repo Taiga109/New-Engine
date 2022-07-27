@@ -1,14 +1,14 @@
 #pragma once
 #include "FbxModel.h"
 #include "Camera.h"
-
+#include "Light.h"
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-#include "Light.h"
+#include "Input.h"
 
 class Object3dFBX
 {
@@ -63,7 +63,11 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
-
+	struct Animation
+	{
+		FbxAnimStack* Animstack;
+		FbxTakeInfo* Takeinfo;
+	};
 
 public: // 静的メンバ関数
 	//setter
@@ -100,18 +104,37 @@ public: //メンバ変数
 
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//アニメーション開始
-	void PlayAnimation();
+	void PlayAnimation(int AnimationNumber);
+	//アニメーション初期化
+	void iniAnimation();
+
 	static void CreateGraphicsPipeline();
+
 	//ライトセット
 	static void SetLight(Light* light) {
 		Object3dFBX::light = light;
 	}
+
+	// 座標の取得
+	const XMFLOAT3& GetPos() { return position; }
+	// 座標の設定
+	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	// X,Y,Z軸回りの取得
+	const XMFLOAT3& GetRotation() { return rotation; }
+	// X,Y,Z軸回りの設定
+	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	// スケールの取得
+	const XMFLOAT3& GetScale() { return scale; }
+	// スケールの設定
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+
+	const FbxTime& GetendTime() { return endTime; }
 protected:
 	ComPtr<ID3D12Resource> constBuffTransform;
 	static Light* light;
-	float s = 0.01;
+	//float s = 0.1;
 	// ローカルスケール
-	XMFLOAT3 scale = { s,s,s };
+	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
@@ -130,6 +153,9 @@ protected:
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
+
+	//アニメーションの保存
+	std::vector<Animation> AnimationData;
 public:
 
 };

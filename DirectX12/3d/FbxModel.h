@@ -91,6 +91,7 @@ public:
 	std::vector<Bone>& GetBones() { return bones; }
 
 	FbxScene* GetFbxScene() { return fbxScene; }
+
 private:
 
 	//メッシュを持つノード

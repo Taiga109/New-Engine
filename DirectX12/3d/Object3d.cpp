@@ -59,7 +59,7 @@ void Object3d::PostDraw()
 	Object3d::cmdList = nullptr;
 }
 
-Object3d* Object3d::Create(Model*model)
+Object3d* Object3d::Create(Model* model)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3d* object3d = new Object3d();
