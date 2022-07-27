@@ -71,7 +71,7 @@ void Object3dFBX::Initialize()
 void Object3dFBX::Update()
 {
 	XMMATRIX matScale, matRot, matTrans;
-
+	
 	// スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
