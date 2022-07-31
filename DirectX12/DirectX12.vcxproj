@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>/my programs/DirectX12/DirectX12/;imgui;/K020G1219/my Engine/DirectX12/;/my programs/DirectX12 Engine/DirectX12/;DirectX12;2d;3d;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <IncludePath>/my programs/my Engine/DirectX12/;imgui;/K020G1219/my Engine/DirectX12/;DirectX12;2d;3d;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -6,7 +6,7 @@
 #include "FBXLoader.h"
 #include "Object3dFBX.h"
 #include "imgui.h"
-#include "Object3d.h"
+
 
 //skydome
 

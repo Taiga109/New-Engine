@@ -22,18 +22,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ゲームウィンドウの作成
 	win = new WinApp();
 	win->CreateGameWindow();
+#ifdef _DEBUG
+	//デバックレイヤーをオンに
+	ID3D12Debug1* debugController;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
+	{
+		debugController->EnableDebugLayer();
+		debugController->SetEnableGPUBasedValidation(TRUE);
+	}
+#endif // DEBUG
+
+
+
+
 	//DirectX初期化処理
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(win);
+
 	//fbx初期化
 	FBXLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+
 #pragma region 汎用機能初期化
 
 	//入力の初期化
 	input = new Input();
 	input->Initialize(win->GetInstance(), win->GetHwnd());
 
-	
+
 	// スプライト静的初期化
 	if (!Sprite::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height))
 	{
@@ -49,7 +64,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 	//ライト静的初期化
 	Light::StaticInitialize(dxCommon->GetDevice());
-	
+
 	//オーディオ初期化
 	audio = new Audio();
 	if (!audio->Initialize())
@@ -58,11 +73,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		return 1;
 	}
 #pragma endregion 汎用機能初期化
-	
+
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
-	gameScene->Initialize(dxCommon, input,audio);
-	
+	gameScene->Initialize(dxCommon, input, audio);
+
 	while (true)  // ゲームループ
 	{
 		// メッセージ処理
@@ -81,17 +96,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion DirectX毎フレーム処理
 
 #pragma region グラフィックスコマンド
-		
+
 		//レンダーテクスチャへの描画
 		//postEffect->PreDrawScene(dxCommon->GetCommandList());
-		
+
 		//postEffect->PostDrawScene(dxCommon->GetCommandList());
 		// 描画開始
 		dxCommon->PreDraw();
 		//ポストエフェクトの描画
 		//postEffect->Draw(dxCommon->GetCommandList(),input);
 		// ゲームシーンの描画
-		
+
 		gameScene->Draw();
 		// 描画終了
 		dxCommon->PostDraw();

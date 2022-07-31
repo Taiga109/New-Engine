@@ -23,6 +23,17 @@ void FBXLoader::Initialize(ID3D12Device* device)
 	//引数からメンバ変数に代入
 	this->device = device;
 
+#ifdef _DEBUG
+
+	ID3D12InfoQueue* infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->Release();
+	}
+#endif // _DEBUG
+
 	//FBXマネージャの生成
 	fbxManager = FbxManager::Create();
 
@@ -341,7 +352,7 @@ void FBXLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 		ConvertMatrixFromFbx(&initialPose, fbxMat);
 		//initialPose *= globalTransform;
 		//initialPose = XMMatrixMultiply(initialPose, globalTransform);
-		
+
 		//初期姿勢行列の逆行列を得る
 		XMMATRIX InvinitialPose;
 		InvinitialPose = XMMatrixInverse(nullptr, initialPose);
@@ -406,7 +417,7 @@ void FBXLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 			weightList.resize(4);
 		}*/
 		int weightArrayIndex = 0;
-		
+
 		//降順ソート済みのウェイトリストから
 		for (auto& weightSet : weightList)
 		{

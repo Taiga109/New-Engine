@@ -16,7 +16,7 @@
 #include "Object3dFBX.h"
 #include "Light.h"
 #include "player.h"
-#include "Object3d.h"
+#include "3d/Object3d.h"
 
 //#include "Light.h"
 /// <summary>
