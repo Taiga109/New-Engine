@@ -79,11 +79,11 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	
-
+	float x=0;
 	float nowtime = 0;
 	float endtime = 20;
 	float time = 0;
-	float m1 = 5;
+	float m1 = 0.05;
 	float m2 = 10;
 	float a = 0.5;
 	float v1 = 0;
@@ -92,7 +92,10 @@ private: // メンバ変数
 	float a2 = 0.1;
 	bool start = false;
 
-	float angle = 1;
+	float length = 30;
+	float Clength = length * 2 * XM_PI;
+	float G = 0.981;
+	float angle;
 	float center = 3;
 
 };

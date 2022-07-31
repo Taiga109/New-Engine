@@ -101,19 +101,25 @@ void GameScene::Update()
 	{
 		start = true;
 	}
+
 	if (start == true)
 	{
 		if (flag == false)
 		{
-			float radius = 50;
-			nowtime += 0.05;
 
+			nowtime += 0.05;
+			v1 += -m1/2 * G * sin(x / length);
+			x += v1;
+			angle = x / length + XM_PI / 2;
 			//time = min(nowtime / endtime, 1);
 
-			float move_x = center + (cos(nowtime/3) * radius);
-			float move_y = center + (sin(nowtime/3) * radius)/3;
-			obj1_pos.x =  move_x;
+			float move_x = -(cos(angle) * length);
+			float move_y = -(sin(angle) * length);
+
+			obj1_pos.x =   move_x;
 			obj1_pos.y =  move_y;
+			//obj1_pos.x =  move_x;
+			//obj1_pos.y =  move_y;
 			//angle += 0.2;
 			//obj2_pos.x -= a;
 		}
@@ -131,7 +137,10 @@ void GameScene::Update()
 		}
 	}
 
-
+	else
+	{
+		x = Clength / 0.8;
+	}
 	object->SetPosition(obj1_pos);
 	object2->SetPosition(obj2_pos);
 
