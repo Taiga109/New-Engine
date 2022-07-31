@@ -7,7 +7,7 @@
 #include "FBXLoader.h"
 #include "Object3dFBX.h"
 #include "imgui.h"
-
+#include "Vector3.h"
 
 using namespace DirectX;
 
@@ -81,40 +81,56 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	object1->PlayAnimation();
 
 	object->SetPosition({ -15.0f, 0.0f, 0.0f });
-	object2->SetPosition({ 5.0f, 0.0f, 0.0f });
+	object2->SetPosition({ -15.0f, -10.0f, 0.0f });
 	float s = 1.0;
 	object->SetScale({ s, s, s });
 	object2->SetScale({ s, s, s });
+	easefin = { 40,-10.0,0.0 };
+	ease = { -15.0f, -10.0f, 0.0f };
+
 }
 void GameScene::Update()
 {
+
+
 	XMFLOAT3 obj1_pos =
 		object->GetPosition();
 	XMFLOAT3 obj2_pos =
 		object2->GetPosition();
+
 	if (input->PushKey(DIK_SPACE))
 	{
 		start = true;
 	}
-	if (start==true)
+	if (start == true)
 	{
-		if (obj1_pos.x <= obj2_pos.x - 1.0 && flag == false)
+		if (flag == false)
 		{
-			obj1_pos.x += a;
-			obj2_pos.x += a2;
+			nowtime += 0.1;
+			
+			time = min(nowtime / endtime, 1);
+			if (obj1_pos.x <= 40)
+			{
+				obj1_pos.x += a;
+			}
+			
+			obj2_pos = easeInOutQuad(ease, easefin, time);
 			//obj2_pos.x -= a;
 		}
 
 		else
 		{
-			flag = true;
-			a2 = m1 * a / m2;
-			v1 = (m1 * -0.1) / (m1 + m2);
-			obj1_pos.x += v1;
-			obj2_pos.x += a2;
+			//flag = true;
+			///*a2 = m1 * a / m2;
+			//v1 = (m1 * -0.1) / (m1 + m2);*/
+			//v1 = e * a;
+			//v2 = v1 + 0.3;
+			//obj1_pos.x += -v1;
+			//obj2_pos.x += v2;
+
 		}
 	}
-	
+
 
 	object->SetPosition(obj1_pos);
 	object2->SetPosition(obj2_pos);

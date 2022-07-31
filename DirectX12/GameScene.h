@@ -79,7 +79,11 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	
-	int time = 0;
+	XMFLOAT3 ease;
+	XMFLOAT3 easefin;
+	float nowtime = 0;
+	float endtime = 20;
+	float time = 0;
 	float m1 = 5;
 	float m2 = 10;
 	float a = 0.5;
@@ -88,5 +92,6 @@ private: // メンバ変数
 	bool flag = false;
 	float a2 = 0.1;
 	bool start = false;
+	float e = 0.4;
 };
 
