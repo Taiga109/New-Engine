@@ -85,8 +85,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	float s = 1.0;
 	object->SetScale({ s, s, s });
 	object2->SetScale({ s, s, s });
-	easefin = { 40,-10.0,0.0 };
-	ease = { -15.0f, -10.0f, 0.0f };
+
 
 }
 void GameScene::Update()
@@ -106,15 +105,16 @@ void GameScene::Update()
 	{
 		if (flag == false)
 		{
-			nowtime += 0.1;
-			
-			time = min(nowtime / endtime, 1);
-			if (obj1_pos.x <= 40)
-			{
-				obj1_pos.x += a;
-			}
-			
-			obj2_pos = easeInOutQuad(ease, easefin, time);
+			float radius = 50;
+			nowtime += 0.05;
+
+			//time = min(nowtime / endtime, 1);
+
+			float move_x = center + (cos(nowtime/3) * radius);
+			float move_y = center + (sin(nowtime/3) * radius)/3;
+			obj1_pos.x =  move_x;
+			obj1_pos.y =  move_y;
+			//angle += 0.2;
 			//obj2_pos.x -= a;
 		}
 
@@ -178,7 +178,7 @@ void GameScene::Draw()
 	//object1->Draw(cmdList);
 	object->Draw();
 
-	object2->Draw();
+	//object2->Draw();
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
@@ -189,7 +189,7 @@ void GameScene::Draw()
 	/*ImGui::SetWindowSize(
 		ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
 	);*/
-	ImGui::SetWindowSize(ImVec2(500, 200));
+	ImGui::SetWindowSize(ImVec2(0, 0));
 	ImGui::End();
 
 
