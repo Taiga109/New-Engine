@@ -107,6 +107,8 @@ public: //メンバ変数
 	void PlayAnimation(int AnimationNumber);
 	//アニメーション初期化
 	void iniAnimation();
+	//アニメーションブレンド
+	void AnimetionBlend(int beforAniNum, int afterAniNum);
 
 	static void CreateGraphicsPipeline();
 
@@ -149,6 +151,17 @@ protected:
 	FbxTime startTime;
 	//アニメーション終了時間
 	FbxTime endTime;
+
+	//アニメーションブレンド変更前の開始時間
+	FbxTime beforstartTime;
+	//アニメーションブレンド変更前の終了時間
+	FbxTime beforendTime;
+
+	//アニメーションブレンド変更後の開始時間
+	FbxTime afterstartTime;
+	//アニメーションブレンド変更後の終了時間
+	FbxTime afterendTime;
+
 	//現在時間(アニメーション)
 	FbxTime currentTime;
 	//アニメーション再生中

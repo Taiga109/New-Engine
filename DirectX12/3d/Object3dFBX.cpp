@@ -174,6 +174,20 @@ void Object3dFBX::PlayAnimation(int AnimationNumber)
 
 }
 
+void Object3dFBX::AnimetionBlend(int beforAniNum, int afterAniNum)
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	//変更前の開始時間取得
+	beforstartTime = AnimationData[beforAniNum].Takeinfo->mLocalTimeSpan.GetStart();
+	//変更前の終了時間取得
+	beforendTime = AnimationData[beforAniNum].Takeinfo->mLocalTimeSpan.GetStop();
+
+	//変更後の開始時間取得
+	afterstartTime = AnimationData[afterAniNum].Takeinfo->mLocalTimeSpan.GetStart();
+	//変更後の終了時間取得
+	afterendTime = AnimationData[afterAniNum].Takeinfo->mLocalTimeSpan.GetStop();
+
+}
 void Object3dFBX::iniAnimation()
 {
 	FbxScene* fbxScene = model->GetFbxScene();
@@ -193,6 +207,8 @@ void Object3dFBX::iniAnimation()
 	}
 	
 }
+
+
 
 void Object3dFBX::CreateGraphicsPipeline()
 {
