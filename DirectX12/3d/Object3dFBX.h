@@ -167,6 +167,11 @@ protected:
 	//アニメーション再生中
 	bool isPlay = false;
 
+	bool blend = false;
+
+	int BeforAniNum=0;
+	int AfterAniNum=0;
+	void setblendanime(int AfterAniNum);
 	//アニメーションの保存
 	std::vector<Animation> AnimationData;
 public:

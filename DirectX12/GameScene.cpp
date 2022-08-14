@@ -159,6 +159,7 @@ void GameScene::Update()
 	else if (moveani == true && animeNum == 6)
 	{
 		moveani = false;
+		
 		animeNum = 4;
 	}
 	//移動中なら変える
@@ -224,7 +225,8 @@ void GameScene::Update()
 	//アニメーション番号変更
 	if (beforanimeNun != animeNum)
 	{
-		object1->PlayAnimation(animeNum);
+		//object1->PlayAnimation(animeNum);
+		object1->AnimetionBlend(beforanimeNun, animeNum);
 		beforanimeNun = animeNum;
 	}
 	object1->SetPosition(pos);

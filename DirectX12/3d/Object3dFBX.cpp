@@ -71,7 +71,7 @@ void Object3dFBX::Initialize()
 void Object3dFBX::Update()
 {
 	XMMATRIX matScale, matRot, matTrans;
-	
+
 	// スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
@@ -106,29 +106,24 @@ void Object3dFBX::Update()
 	if (isPlay) {
 		//1フレーム進める
 		currentTime += frameTime;
+		if (blend)
+		{
+			if (currentTime >= beforendTime / 100)
+			{
+				currentTime = afterendTime / 2;
+				setblendanime(AfterAniNum);
+				blend = false;
+			}
+		}
+
 		//アニメーションが終了したら
-		if (currentTime > endTime) {
-			currentTime = startTime;
+		if (currentTime > afterendTime) {
+			currentTime = afterstartTime;
 		}
 	}
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
-	for (int i = 0; i < bones.size(); i++)
-	{
-		XMMATRIX globalTransform = model->GetModelTransform();
-		XMMATRIX invglobalTransform = XMMatrixInverse(nullptr, globalTransform);
-
-		//今の姿勢行列
-		XMMATRIX matCurrendPose;
-		//今の姿勢行列を取得
-		FbxAMatrix fbxCurrentPose =
-			bones[i].fbxcluster->GetLink()->EvaluateGlobalTransform(currentTime);
-		//XMMATRIXに変換
-		FBXLoader::ConvertMatrixFromFbx(&matCurrendPose, fbxCurrentPose);
-		//合成してスキニング行列に
-		constMapSkin->bones[i] = globalTransform*bones[i].invInitialPose * matCurrendPose*invglobalTransform;
-	}
 
 	for (int i = 0; i < bones.size(); i++)
 	{
@@ -145,6 +140,33 @@ void Object3dFBX::Update()
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = globalTransform * bones[i].invInitialPose * matCurrendPose * invglobalTransform;
 	}
+
+
+	//if (blend)
+	//{
+	//	for (int i = 0; i < bones.size(); i++)
+	//	{
+	//		XMMATRIX globalTransform = model->GetModelTransform();
+	//		XMMATRIX invglobalTransform = XMMatrixInverse(nullptr, globalTransform);
+
+	//		//今の姿勢行列
+	//		XMMATRIX matCurrendPose;
+	//		//前の姿勢行列を取得
+	//		FbxAMatrix fbxBeforCurrentPose =
+	//			bones[i].fbxcluster->GetLink()->EvaluateGlobalTransform(currentTime);
+	//		//XMMATRIXに変換
+	//		FBXLoader::ConvertMatrixFromFbx(&matCurrendPose, fbxBeforCurrentPose);
+
+	//		
+	//		//後の姿勢行列を取得
+	//		FbxAMatrix fbxAfterCurrentPose =
+	//			bones[i].fbxcluster->GetLink()->EvaluateGlobalTransform(currentTime);
+	//		//XMMATRIXに変換
+	//		FBXLoader::ConvertMatrixFromFbx(&matCurrendPose, fbxAfterCurrentPose);
+	//		//合成してスキニング行列に
+	//		constMapSkin->bones[i] = globalTransform * bones[i].invInitialPose * matCurrendPose * invglobalTransform;
+	//	}
+	//}
 	constBuffSkin->Unmap(0, nullptr);
 }
 
@@ -175,7 +197,7 @@ void Object3dFBX::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void Object3dFBX::PlayAnimation(int AnimationNumber)
 {
-	
+
 	FbxScene* fbxScene = model->GetFbxScene();
 	//アニメーションの変更
 	fbxScene->SetCurrentAnimationStack(AnimationData[AnimationNumber].Animstack);
@@ -192,7 +214,8 @@ void Object3dFBX::PlayAnimation(int AnimationNumber)
 
 void Object3dFBX::AnimetionBlend(int beforAniNum, int afterAniNum)
 {
-	FbxScene* fbxScene = model->GetFbxScene();
+	BeforAniNum = beforAniNum;
+	AfterAniNum = afterAniNum;
 	//変更前の開始時間取得
 	beforstartTime = AnimationData[beforAniNum].Takeinfo->mLocalTimeSpan.GetStart();
 	//変更前の終了時間取得
@@ -202,6 +225,11 @@ void Object3dFBX::AnimetionBlend(int beforAniNum, int afterAniNum)
 	afterstartTime = AnimationData[afterAniNum].Takeinfo->mLocalTimeSpan.GetStart();
 	//変更後の終了時間取得
 	afterendTime = AnimationData[afterAniNum].Takeinfo->mLocalTimeSpan.GetStop();
+
+	//開始時間に合わせる
+	currentTime = beforstartTime;
+
+	blend = true;
 
 }
 void Object3dFBX::iniAnimation()
@@ -221,9 +249,15 @@ void Object3dFBX::iniAnimation()
 		//仮データを実データに入れる
 		AnimationData.push_back(Data);
 	}
-	
+
 }
 
+void Object3dFBX::setblendanime(int AfterAniNum)
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	//アニメーションの変更
+	fbxScene->SetCurrentAnimationStack(AnimationData[AfterAniNum].Animstack);
+}
 
 
 void Object3dFBX::CreateGraphicsPipeline()
@@ -392,3 +426,4 @@ void Object3dFBX::CreateGraphicsPipeline()
 		assert(0);
 	}
 }
+
