@@ -110,16 +110,19 @@ void Object3dFBX::Update()
 		{
 			if (currentTime >= beforendTime / 100)
 			{
-				currentTime = afterendTime / 2;
+				currentTime = afterendTime / 100;
 				setblendanime(AfterAniNum);
 				blend = false;
 			}
 		}
 
 		//アニメーションが終了したら
-		if (currentTime > afterendTime) {
+		if (currentTime > afterendTime){
 			currentTime = afterstartTime;
 		}
+		/*if (currentTime > endTime) {
+			currentTime = startTime;
+		}*/
 	}
 	//定数バッファへデータ転送
 	ConstBufferDataSkin* constMapSkin = nullptr;
