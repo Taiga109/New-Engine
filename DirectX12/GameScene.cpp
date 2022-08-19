@@ -63,12 +63,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 背景スプライト生成
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
-
+	enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
 
 	// 3Dオブジェクト生成
 	object1 = new Object3dFBX;
 	object1->Initialize();
 	object1->SetModel(model1);
+	enemy = new Object3dFBX;
+	enemy->Initialize();
+	enemy->SetModel(enemymodel);
 
 	dome = dome->CreateFromObj("skydome");
 	domeobj = Object3d::Create(dome);
@@ -98,7 +101,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	domeobj->SetPosition({ 0,0,0 });
 	//domeobj->SetScale({ 1,1,1 });
 	object1->SetScale(scale);
-
+	enemy->SetScale(scale);
 
 }
 void GameScene::Update()
@@ -108,6 +111,7 @@ void GameScene::Update()
 	light->Update();
 	//player->update(object1, input);
 	object1->Update();
+	enemy->Update();
 	camera->Update();
 	pos = object1->GetPos();
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
@@ -264,6 +268,7 @@ void GameScene::Draw()
 	// 3Dオブクジェクトの描画
 	domeobj->Draw();
 	object1->Draw(cmdList);
+	enemy->Draw(cmdList);
 	groundobj->Draw();
 	//player->Draw(object1,cmdList);
 	/// <summary>

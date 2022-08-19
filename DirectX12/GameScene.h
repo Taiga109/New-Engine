@@ -74,7 +74,9 @@ private: // メンバ変数
 	Sprite* spriteBG = nullptr;
 	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
+	FbxModel* enemymodel = nullptr;
 	Object3dFBX* object1 = nullptr;
+	Object3dFBX* enemy = nullptr;
 	player* player = nullptr;
 
 	Model* dome = nullptr;
@@ -87,6 +89,7 @@ private: // メンバ変数
 
 	XMFLOAT3 scale = { 0.1,0.1,0.1 };
 	XMFLOAT3 pos;
+	XMFLOAT3 enescale = { 50,50,50 };
 	bool atackani = false;
 	bool moveani = false;
 	int animeNum = 4;

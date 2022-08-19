@@ -167,6 +167,7 @@
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
