@@ -165,7 +165,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -271,7 +270,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionPrimitive.h" />
-    <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="GameScene.h" />

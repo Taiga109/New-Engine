@@ -68,7 +68,7 @@ public: // メンバ関数
 private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
-	DebugCamera* Dcamera = nullptr;
+	//DebugCamera* Dcamera = nullptr;
 	Camera* camera = nullptr;
 	DebugText debugText;
 	Sprite* spriteBG = nullptr;
@@ -88,7 +88,7 @@ private: // メンバ変数
 	/// </summary>
 
 	XMFLOAT3 scale = { 0.1,0.1,0.1 };
-	XMFLOAT3 pos;
+	XMFLOAT3 pos = {0,0,0};
 	XMFLOAT3 enescale = { 50,50,50 };
 	bool atackani = false;
 	bool moveani = false;

@@ -31,7 +31,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	assert(dxCommon);
 	assert(input);
 	// カメラ生成
-	Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+	//Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 	camera = new Camera(WinApp::window_width, WinApp::window_height);
 	this->dxCommon = dxCommon;
 	this->input = input;
@@ -83,9 +83,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	groundobj->SetCamera(camera);
 	groundobj->SetLight(light);
 	//player->Initialize(object1, model1);
-	
+
 	//camera->SetDistance({ 50.0f });
-	camera->SetEye({ 0,60,-70 });
+	//camera->SetEye({ 0,60,-70 });
 	camera->SetTarget({ 0,1,0 });
 	camera->SetUp({ 0,1,0 });
 	light = Light::Create();
@@ -100,12 +100,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	//6歩き
 	domeobj->SetPosition({ 0,0,0 });
 	//domeobj->SetScale({ 1,1,1 });
+	object1->SetPosition({ 0,0,-20 });
 	object1->SetScale(scale);
 	enemy->SetScale(scale);
-
+	pos = object1->GetPos();
+	camera->SetEye({ pos });
 }
 void GameScene::Update()
 {
+
+
 	groundobj->Update();
 	domeobj->Update();
 	light->Update();
@@ -114,6 +118,8 @@ void GameScene::Update()
 	enemy->Update();
 	camera->Update();
 	pos = object1->GetPos();
+	camera->SetEye({ pos.x + 5,pos.y + 20,pos.z - 20 });
+	camera->SetTarget({ pos.x + 5,pos.y + 15,pos.z + 10 });
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
 		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
 	{
@@ -131,7 +137,7 @@ void GameScene::Update()
 			{
 				object1->SetRotation({ 0,90,0 });
 			}
-			
+
 		}
 		else if (input->PushKey(DIK_A))
 		{
@@ -163,7 +169,7 @@ void GameScene::Update()
 	else if (moveani == true && animeNum == 6)
 	{
 		moveani = false;
-		
+
 		animeNum = 4;
 	}
 	//移動中なら変える
