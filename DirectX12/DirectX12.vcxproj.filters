@@ -37,6 +37,12 @@
     <Filter Include="ソース ファイル\imgui">
       <UniqueIdentifier>{34f3712a-33f8-49d1-801e-8f2c326d9476}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\collision">
+      <UniqueIdentifier>{e2110e20-7e2a-478c-8fa5-78424eedd6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\collision">
+      <UniqueIdentifier>{f730e853-0b34-4161-8df9-cc87979ded5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,12 +61,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionPrimitive.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
@@ -122,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionPrimitive.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCollision.cpp">
+      <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,12 +201,6 @@
     <ClInclude Include="Vector3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -260,6 +263,15 @@
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCollision.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
