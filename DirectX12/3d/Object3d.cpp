@@ -7,7 +7,10 @@
 #include <vector>
 #include "Light.h"
 #include "Camera.h"
+#include "BaseCollider.h"
 #pragma comment(lib, "d3dcompiler.lib")
+
+
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -242,10 +245,20 @@ void Object3d::CreateGraphicsPipeline()
 
 
 
+Object3d::~Object3d()
+{
+	if (collider)
+	{
+		delete collider;
+	}
+}
+
 bool Object3d::Initialize()
 {
 	// nullptrチェック
 	assert(device);
+
+	name = typeid(*this).name();
 
 	HRESULT result;
 
@@ -269,7 +282,11 @@ void Object3d::Update()
 
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
-
+	//当たり判定更新
+	if (collider)
+	{
+		collider->Update();
+	}
 	// スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
@@ -320,4 +337,10 @@ void Object3d::Draw()
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 
 	model->Draw(cmdList);
+}
+
+void Object3d::SetCollider(BaseCollider* Collider)
+{
+	collider->SetObject(this);
+	this->collider = collider;
 }

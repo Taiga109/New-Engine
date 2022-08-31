@@ -9,6 +9,8 @@
 #include "Model.h"
 #include "Light.h"
 #include "Camera.h"
+#include "CollisionInfo.h"
+class BaseCollider;
 
 class Object3d
 {
@@ -75,11 +77,16 @@ private: // 静的メンバ変数
 private:// 静的メンバ関数
 
 public: // メンバ関数
-	bool Initialize();
+	//コンストラクタ
+	Object3d() = default;
+	//デストラクタ
+	virtual ~Object3d();
+
+	virtual bool Initialize();
 	// 毎フレーム処理
-	void Update();
+	virtual void Update();
 	// 描画
-	void Draw();
+	virtual void Draw();
 	// モデルスケールの取得
 	const XMFLOAT3& GetScale() { return scale; }
 	// モデルスケールの設定
@@ -95,7 +102,14 @@ public: // メンバ関数
 	// モデルの設定
 	void SetModel(Model* model) { this->model = model; };
 
-private: // メンバ変数
+	//ワールド行列の取得
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+	//コライダーのセット
+	void SetCollider(BaseCollider* Collider);
+
+	//衝突時コールバック関数
+	virtual void OnCollision(const CollisionInfo& info){}
+protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
@@ -111,4 +125,9 @@ private: // メンバ変数
 	Object3d* parent = nullptr;
 
 	Model* model = nullptr;
+
+	//クラス名(デバック用)
+	const char* name = nullptr;
+	//コライダー
+	BaseCollider* collider = nullptr;
 };
