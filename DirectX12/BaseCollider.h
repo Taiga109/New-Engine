@@ -2,6 +2,7 @@
 #include "CollisionInfo.h"
 #include "CollisionTypes.h"
 #include "Object3d.h"
+#include "3d/Object3dFBX.h"
 class BaseCollider
 {
 public:
@@ -13,8 +14,15 @@ public:
 		this->object3d = object;
 	}
 
+	inline void SetObjectFbx(Object3dFBX* objectfbx) {
+		this->object3dfbx = objectfbx;
+	}
+
 	inline Object3d* GetObject3d() {
 		return object3d;
+	}
+	inline Object3dFBX* GetObject3dFbx() {
+		return object3dfbx;
 	}
 	//更新
 	virtual void Update() = 0;
@@ -26,6 +34,7 @@ public:
 	}
 protected:
 	Object3d* object3d = nullptr;
+	Object3dFBX* object3dfbx = nullptr;
 	//形状タイプ
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 };

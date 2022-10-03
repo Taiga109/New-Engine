@@ -8,6 +8,7 @@
 #include "Light.h"
 #include "Camera.h"
 #include "BaseCollider.h"
+#include "CollisionManager.h"
 #pragma comment(lib, "d3dcompiler.lib")
 
 
@@ -249,6 +250,7 @@ Object3d::~Object3d()
 {
 	if (collider)
 	{
+		CollisionManager::GetInstance()->RemoveCollider(collider);
 		delete collider;
 	}
 }

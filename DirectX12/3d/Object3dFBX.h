@@ -10,6 +10,9 @@
 #include <string>
 #include "Input.h"
 
+class BaseCollider;
+
+
 class Object3dFBX
 {
 private: // エイリアス
@@ -21,6 +24,9 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+
+
+
 	struct Material
 	{
 
@@ -96,8 +102,11 @@ private: // 静的メンバ変数
 public: //メンバ変数
 	void Initialize();
 
+	virtual ~Object3dFBX();
 	//更新
 	void Update();
+
+	void setCollider(BaseCollider* collider);
 
 	//モデルセット
 	void SetModel(FbxModel* model) { this->model = model; }
@@ -174,6 +183,8 @@ protected:
 	void setblendanime(int AfterAniNum);
 	//アニメーションの保存
 	std::vector<Animation> AnimationData;
+	//コライダー
+	BaseCollider* collider = nullptr;
 public:
 
 };

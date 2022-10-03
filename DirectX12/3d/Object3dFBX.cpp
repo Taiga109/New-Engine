@@ -1,6 +1,8 @@
 #include "Object3dFBX.h"
 #include "FBXLoader.h"
 #include <d3dcompiler.h>
+#include "BaseCollider.h"
+#include "CollisionManager.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -66,6 +68,15 @@ void Object3dFBX::Initialize()
 	constBuffSkin->Unmap(0, nullptr);
 
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+}
+
+Object3dFBX::~Object3dFBX()
+{
+	if (collider)
+	{
+		CollisionManager::GetInstance()->RemoveCollider(collider);
+		delete collider;
+	}
 }
 
 void Object3dFBX::Update()
@@ -430,3 +441,11 @@ void Object3dFBX::CreateGraphicsPipeline()
 	}
 }
 
+void Object3dFBX::setCollider(BaseCollider* collider)
+{
+	collider->SetObjectFbx(this);
+	this->collider = collider;
+	CollisionManager::GetInstance()->AddCollider(collider);
+	//コライダーを更新しておく
+	collider->Update();
+}

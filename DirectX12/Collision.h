@@ -22,5 +22,8 @@ public:
 
 	static bool CheckRay2Sphere(const Ray& ray, const Sphere& Sphere,
 		float* distance = nullptr, DirectX::XMVECTOR* inter = nullptr);
+	//‹…‚Æ‹…‚Ì“–‚½‚è”»’è
+	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
+		DirectX::XMVECTOR* inter = nullptr, DirectX::XMVECTOR* reject = nullptr);
 };
 
