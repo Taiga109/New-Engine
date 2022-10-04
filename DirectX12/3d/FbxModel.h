@@ -87,6 +87,12 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; };
+
+	//頂点配列を取得
+	inline const std::vector<VertexPosNormalUvSkin>& GetVertices() { return vertices; }
+
+	//インデックス配列を取得
+	inline const std::vector<unsigned short>& GetIndices() { return indices; }
 	//getter
 	std::vector<Bone>& GetBones() { return bones; }
 
