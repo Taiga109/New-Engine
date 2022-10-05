@@ -63,7 +63,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 背景スプライト生成
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
-	enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
+	//enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
 
 	// 3Dオブジェクト生成
 	object1 = new Object3dFBX;
@@ -71,14 +71,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	object1->SetModel(model1);
 	enemy = new Object3dFBX;
 	enemy->Initialize();
-	enemy->SetModel(enemymodel);
+	//enemy->SetModel(enemymodel);
 
-	dome = dome->CreateFromObj("skydome");
+	dome = dome->CreateFromObj("skydome",false);
 	domeobj = Object3d::Create(dome);
 	domeobj->SetCamera(camera);
 	domeobj->SetLight(light);
 
-	groundmodel = groundmodel->CreateFromObj("ground");
+	groundmodel = groundmodel->CreateFromObj("ground",false);
 	groundobj = Object3d::Create(groundmodel);
 	groundobj->SetCamera(camera);
 	groundobj->SetLight(light);
@@ -115,7 +115,7 @@ void GameScene::Update()
 	light->Update();
 	//player->update(object1, input);
 	object1->Update();
-	enemy->Update();
+	//enemy->Update();
 	camera->Update();
 	pos = object1->GetPos();
 	camera->SetEye({ pos.x + 5,pos.y + 20,pos.z - 20 });
@@ -273,8 +273,8 @@ void GameScene::Draw()
 
 	// 3Dオブクジェクトの描画
 	domeobj->Draw();
-	object1->Draw(cmdList);
-	enemy->Draw(cmdList);
+	//object1->Draw(cmdList);
+	//enemy->Draw(cmdList);
 	groundobj->Draw();
 	//player->Draw(object1,cmdList);
 	/// <summary>

@@ -46,7 +46,7 @@ private: // 定数
 
 public: // 静的メンバ関数
 	// 静的初期化
-	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
+	static bool StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
 	//グラフィックパイプラインの生成
 	static void CreateGraphicsPipeline();
 	// 描画前処理

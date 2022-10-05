@@ -27,7 +27,7 @@ Camera* Object3d::camera = nullptr;
 Light* Object3d::light = nullptr;
 
 
-void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
+bool Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 {
 	// 再初期化チェック
 	assert(!Object3d::device);
@@ -43,6 +43,8 @@ void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 
 	// モデルの静的初期化
 	Model::StaticInitialize(device);
+
+	return true;
 }
 
 void Object3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
