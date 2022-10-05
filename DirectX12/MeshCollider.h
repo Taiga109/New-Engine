@@ -2,7 +2,7 @@
 
 #include "BaseCollider.h"
 #include "CollisionPrimitive.h"
-
+#include "Mesh.h"
 #include <DirectXMath.h>
 class MeshCollider:
 	public BaseCollider
@@ -15,7 +15,7 @@ public:
 	}
 
 	//三角形の配列を構築する
-	void ConstructTriangles(FbxModel* model,FbxNode* node);
+	void ConstructTriangles(Model* model, Mesh* mesh);
 	//更新
 	void Update() override;
 

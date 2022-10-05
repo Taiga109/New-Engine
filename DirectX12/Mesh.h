@@ -124,6 +124,11 @@ public: // メンバ関数
 	/// </summary>
 	void CalculateSmoothedVertexNormals();
 
+	inline const std::vector<VertexPosNormalUv>& GetVertices() { return vertices; }
+
+	//インデックス配列を取得
+	inline const std::vector<unsigned short>& GetIndices() { return indices; }
+
 private: // メンバ変数
 	// 名前
 	std::string name;

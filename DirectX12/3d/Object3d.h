@@ -109,6 +109,10 @@ public: // メンバ関数
 
 	//衝突時コールバック関数
 	virtual void OnCollision(const CollisionInfo& info){}
+
+	//モデル
+	inline Model* GetModel() { return model; }
+
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
