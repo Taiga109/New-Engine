@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Vector3.h"
 #include <DirectXMath.h>
 
 struct Sphere
@@ -33,4 +33,11 @@ struct Ray
 {
 	DirectX::XMVECTOR start = { 0,0,0,1 };
 	DirectX::XMVECTOR dir = { 1,0,0,0 };
+};
+//軸並行境界ボックス
+struct AABB {
+	//中心座標
+	Vector3 center = { 0,0,0 };
+	//集点座標
+	Vector3 length = { 1,1,1 };
 };

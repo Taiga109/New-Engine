@@ -161,6 +161,7 @@
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3d.cpp" />
     <ClCompile Include="3d\Object3dFBX.cpp" />
+    <ClCompile Include="AABBCollision.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3d.h" />
     <ClInclude Include="3d\Object3dFBX.h" />
+    <ClInclude Include="AABBCollision.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="Camera.h" />

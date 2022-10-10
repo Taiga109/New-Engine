@@ -37,5 +37,6 @@ protected:
 	Object3dFBX* object3dfbx = nullptr;
 	//形状タイプ
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
+	
 };
 
