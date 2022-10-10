@@ -108,7 +108,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 }
 void GameScene::Update()
 {
-
+	//ブランチ
 
 	groundobj->Update();
 	domeobj->Update();
