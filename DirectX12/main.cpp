@@ -7,6 +7,7 @@
 #include "PostEffect.h"
 #include "Light.h"
 #include "Object3d.h"
+#include "ParticleManager.h"
 
 //# Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -64,7 +65,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 	//ライト静的初期化
 	Light::StaticInitialize(dxCommon->GetDevice());
-
+	// パーティクルマネージャ初期化
+	ParticleManager::GetInstance()->Initialize(dxCommon->GetDevice());
 	//オーディオ初期化
 	audio = new Audio();
 	if (!audio->Initialize())

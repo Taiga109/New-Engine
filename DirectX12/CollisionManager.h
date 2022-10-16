@@ -11,7 +11,6 @@ public:
 public:
 
 	//コライダーの追加
-	
 	inline void AddCollider(BaseCollider* collider) {
 		colliders.push_front(collider);
 	}

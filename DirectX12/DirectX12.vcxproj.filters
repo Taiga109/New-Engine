@@ -43,6 +43,9 @@
     <Filter Include="ソース ファイル\collision">
       <UniqueIdentifier>{f730e853-0b34-4161-8df9-cc87979ded5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Particle">
+      <UniqueIdentifier>{1689bd88-9811-4176-aee8-950137597820}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,9 +132,6 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="MeshCollision.cpp">
-      <Filter>ソース ファイル\collision</Filter>
-    </ClCompile>
     <ClCompile Include="BaseCollider.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
@@ -153,6 +153,9 @@
     <ClCompile Include="AABBCollision.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
+    <ClCompile Include="3d\ParticleManager.cpp">
+      <Filter>ソース ファイル\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3d.hlsli">
@@ -169,6 +172,9 @@
     </None>
     <None Include="Resources\Shaders\FBX.hlsli">
       <Filter>シェーダー</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle.hlsli">
+      <Filter>リソース ファイル\Particle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +207,15 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FBXVS.hlsl">
       <Filter>シェーダー</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticlePS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ParticleVS.hlsl">
+      <Filter>リソース ファイル\Particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,9 +306,6 @@
     <ClInclude Include="CollisionPrimitive.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="MeshCollision.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionTypes.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
@@ -319,6 +331,12 @@
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
     <ClInclude Include="AABBCollision.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\ParticleManager.h">
+      <Filter>ヘッダー ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo_FBX.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
   </ItemGroup>

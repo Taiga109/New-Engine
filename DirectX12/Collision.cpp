@@ -262,3 +262,57 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 
 	return false;
 }
+
+bool Collision::CheckSphere2AABB(const Sphere& sphere, const AABB& aabb, DirectX::XMVECTOR* inter)
+{
+	float sqLen = 0;
+	Vector3 spherePos = sphere.center;
+	if (spherePos.x < aabb.center.x) {
+		sqLen += (spherePos.x - aabb.center.x) * (spherePos.x - aabb.center.x);
+	}
+	else if (spherePos.x > aabb.center.x + aabb.length.x) {
+		sqLen += (spherePos.x - (aabb.center.x + aabb.length.x)) * (spherePos.x - (aabb.center.x + aabb.length.x));
+	}
+	if (spherePos.y < aabb.center.y) {
+		sqLen += (spherePos.y - aabb.center.y) * (spherePos.y - aabb.center.y);
+	}
+	else if (spherePos.y > aabb.center.y + aabb.length.y) {
+		sqLen += (spherePos.y - (aabb.center.y + aabb.length.y)) * (spherePos.y - (aabb.center.y + aabb.length.y));
+	}
+	if (spherePos.z < aabb.center.z) {
+		sqLen += (spherePos.z - aabb.center.z) * (spherePos.z - aabb.center.z);
+	}
+	else if (spherePos.z > aabb.center.z + aabb.length.z) {
+		sqLen += (spherePos.z - (aabb.center.z + aabb.length.z)) * (spherePos.z - (aabb.center.z + aabb.length.z));
+	}
+
+	//è’ìÀ
+	if (sqLen < sphere.radius * sphere.radius) {
+		if (inter) {
+			Vector3 checkPos = spherePos - aabb.center;
+			//è’ìÀà íuVector3
+			if (checkPos.x < aabb.length.x) {
+				inter->m128_f32[0] = aabb.length.x;
+			}
+			else {
+				inter->m128_f32[0] = spherePos.x;
+			}
+
+			if (checkPos.y < aabb.length.y) {
+				inter->m128_f32[1] = aabb.length.y;
+			}
+			else {
+				inter->m128_f32[1] = spherePos.y;
+			}
+
+			if (checkPos.z < aabb.length.z) {
+				inter->m128_f32[2] = aabb.length.z;
+			}
+			else {
+				inter->m128_f32[2] = spherePos.z;
+			}
+		}
+		return true;
+	}
+	return false;
+}

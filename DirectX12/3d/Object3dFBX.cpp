@@ -19,8 +19,11 @@ ComPtr<ID3D12RootSignature> Object3dFBX::rootsignature;
 // パイプラインステートオブジェクト
 ComPtr<ID3D12PipelineState> Object3dFBX::pipelinestate;
 
-void Object3dFBX::Initialize()
+bool Object3dFBX::Initialize()
 {
+
+	name = typeid(*this).name();
+
 	HRESULT result;
 
 	result = device->CreateCommittedResource(
@@ -68,6 +71,7 @@ void Object3dFBX::Initialize()
 	constBuffSkin->Unmap(0, nullptr);
 
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+	return true;
 }
 
 Object3dFBX::~Object3dFBX()
@@ -182,6 +186,11 @@ void Object3dFBX::Update()
 	//	}
 	//}
 	constBuffSkin->Unmap(0, nullptr);
+
+	if (collider)
+	{
+		collider->Update();
+	}
 }
 
 void Object3dFBX::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -449,3 +458,5 @@ void Object3dFBX::setCollider(BaseCollider* collider)
 	//コライダーを更新しておく
 	collider->Update();
 }
+
+

@@ -9,7 +9,7 @@
 #include <d3dx12.h>
 #include <string>
 #include "Input.h"
-
+#include "CollisionInfo_FBX.h"
 class BaseCollider;
 
 
@@ -75,6 +75,9 @@ public:
 		FbxTakeInfo* Takeinfo;
 	};
 
+
+
+
 public: // 静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { Object3dFBX::device = device; }
@@ -100,18 +103,22 @@ private: // 静的メンバ変数
 	Material material;
 
 public: //メンバ変数
-	void Initialize();
-
+	//コンストラクタ
+	Object3dFBX() = default;
+	//デストラクタ
 	virtual ~Object3dFBX();
+	//初期化
+	virtual bool Initialize();
 	//更新
-	void Update();
+	virtual void Update();
 
-	void setCollider(BaseCollider* collider);
 
+
+	
 	//モデルセット
 	void SetModel(FbxModel* model) { this->model = model; }
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	virtual void Draw(ID3D12GraphicsCommandList* cmdList);
 	//アニメーション開始
 	void PlayAnimation(int AnimationNumber);
 	//アニメーション初期化
@@ -129,18 +136,31 @@ public: //メンバ変数
 	// 座標の取得
 	const XMFLOAT3& GetPos() { return position; }
 	// 座標の設定
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	virtual void SetPosition(XMFLOAT3 position) { this->position = position; }
 	// X,Y,Z軸回りの取得
 	const XMFLOAT3& GetRotation() { return rotation; }
 	// X,Y,Z軸回りの設定
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 	// スケールの取得
 	const XMFLOAT3& GetScale() { return scale; }
+
+
+	//ワールド行列の取得
+	const XMMATRIX& GetMatWorld() { return matWorld; }
+	//セットコライダー
+	void setCollider(BaseCollider* collider);
+	//衝突時コールバック関数
+	virtual void OnCollisionFBX(const CollisionInfo_FBX& info) {}
 	// スケールの設定
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
 	const FbxTime& GetendTime() { return endTime; }
+
+	std::unique_ptr<Object3dFBX>& GetObjectDate() { return objectData; }
 protected:
+
+	const char* name = nullptr;
+
 	ComPtr<ID3D12Resource> constBuffTransform;
 	static Light* light;
 	//float s = 0.1;
@@ -178,13 +198,15 @@ protected:
 
 	bool blend = false;
 
-	int BeforAniNum=0;
-	int AfterAniNum=0;
+	int BeforAniNum = 0;
+	int AfterAniNum = 0;
 	void setblendanime(int AfterAniNum);
 	//アニメーションの保存
 	std::vector<Animation> AnimationData;
 	//コライダー
 	BaseCollider* collider = nullptr;
+
+	std::unique_ptr<Object3dFBX> objectData;	//オブジェクトデータ
 public:
 
 };

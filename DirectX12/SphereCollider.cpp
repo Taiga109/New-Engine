@@ -6,7 +6,7 @@ void SphereCollider::Update()
 {
 	
 	//ワールド行列から座標を抽出
-	const XMMATRIX& matWorld=object3d->GetMatWorld();
+	const XMMATRIX& matWorld= GetObject3dFbx()->GetMatWorld();
 
 	Sphere::center = matWorld.r[3] + offset;
 	Sphere::radius = radius;

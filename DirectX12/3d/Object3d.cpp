@@ -286,11 +286,7 @@ void Object3d::Update()
 
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
-	//当たり判定更新
-	if (collider)
-	{
-		collider->Update();
-	}
+	
 	// スケール、回転、平行移動行列の計算
 	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
 	matRot = XMMatrixIdentity();
@@ -320,6 +316,11 @@ void Object3d::Update()
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
+	//当たり判定更新
+	if (collider)
+	{
+		collider->Update();
+	}
 }
 
 void Object3d::Draw()
@@ -345,6 +346,8 @@ void Object3d::Draw()
 
 void Object3d::SetCollider(BaseCollider* Collider)
 {
-	collider->SetObject(this);
-	this->collider = collider;
+	Collider->SetObject(this);
+	this->collider = Collider;
+	CollisionManager::GetInstance()->AddCollider(Collider);
+	Collider->Update();
 }

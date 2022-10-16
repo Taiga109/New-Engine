@@ -54,7 +54,7 @@ public: //ƒƒ“ƒoŠÖ”
 	XMFLOAT2 GetMousePosition();
 
 	MouseMove GetMouseMove();
-
+	static Input* GetInstance();
 private: //ƒƒ“ƒo•Ï”
 	HWND hwnd;
 	ComPtr<IDirectInput8> dinput;
