@@ -26,9 +26,11 @@ public:
 	bool CheckCollisionRay(const Ray& ray, float* distance = nullptr,
 		DirectX::XMVECTOR* inter = nullptr);
 private:
-	std::vector<Triangle> triangle;
+	std::vector<Triangle> triangles;
 	//ワールド行列の逆行列
 	DirectX::XMMATRIX invMatWorld;
+
+
 
 };
 

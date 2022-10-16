@@ -67,13 +67,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
 	enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
-	sphere_fbxmodel = FBXLoader::GetInstance()->LoadModelFromFile("Sphere_FBX");
 
+	sphere_fbxmodel = FBXLoader::GetInstance()->LoadModelFromFile("Sphere_FBX");
 
 	collisionmaneger = CollisionManager::GetInstance();
 	particleMan = ParticleManager::GetInstance();
 	particleMan->SetCamera(camera);
-
 
 	// 3Dオブジェクト生成
 	//object1 = new Object3dFBX;
@@ -83,7 +82,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	enemy = new Object3dFBX;
 	enemy->Initialize();
 	enemy->SetModel(enemymodel);
-
 
 	sphere_fbx = new Object3dFBX;
 	sphere_fbx->Initialize();
@@ -98,13 +96,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	groundobj = Object3d::Create(groundmodel);
 	groundobj->SetCamera(camera);
 	groundobj->SetLight(light);
-	
+
 	spheremodel = spheremodel->CreateFromObj("sphere", false);
 	sphereobj = Object3d::Create(spheremodel);
 	sphereobj->SetCamera(camera);
 	sphereobj->SetLight(light);
 	
 	//sphereobj->SetCollider(new SphereCollider);
+
+	player->Initialize(object1, model1);
 	//camera->SetDistance({ 50.0f });
 	//camera->SetEye({ 0,60,-70 });
 	camera->SetTarget({ 0,1,0 });
@@ -142,6 +142,7 @@ void GameScene::Update()
 	sphereobj->Update();
 	light->Update();
 	sphere_fbx->Update();
+	player->update(object1, input);
 	object1->Update();
 	enemy->Update();
 	camera->Update();
@@ -292,6 +293,7 @@ void GameScene::Draw()
 	sphere_fbx->Draw(cmdList);
 	//enemy->Draw(cmdList);
 	//sphereobj->Draw();
+	enemy->Draw(cmdList);
 	groundobj->Draw();
 	// パーティクルの描画
 	particleMan->Draw(cmdList);
