@@ -5,14 +5,7 @@
 #include "SphereCollider.h"
 #include "ParticleManager.h"
 
-void player::Initialize(Object3dFBX* fbx, FbxModel* model)
-{
-	fbx->Initialize();
-	fbx->SetModel(model);
-	fbx->iniAnimation();
 
-	using namespace DirectX;
-}
 player* player::Create(FbxModel* model)
 {
 	//3dオブジェクトのインスタンスを生成

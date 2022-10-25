@@ -4,10 +4,10 @@
 #include "GameScene.h"
 #include "Audio.h"
 #include "fbxsdk.h"
-
 #include "PostEffect.h"
 #include "Light.h"
 #include "Object3d.h"
+#include "ParticleManager.h"
 
 class GameBase
 {

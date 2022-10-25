@@ -48,7 +48,7 @@ void GameBase::Initialize()
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 	//ライト静的初期化
 	Light::StaticInitialize(dxCommon->GetDevice());
-
+	ParticleManager::GetInstance()->Initialize(dxCommon->GetDevice());
 	//オーディオ初期化
 	audio = new Audio();
 	if (!audio->Initialize())

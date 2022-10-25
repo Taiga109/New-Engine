@@ -37,7 +37,7 @@ struct Ray
 //軸並行境界ボックス
 struct AABB {
 	//中心座標
-	DirectX::XMVECTOR center = { 0,0,0 };
+	Vector3 center = { 0,0,0 };
 	//集点座標
-	XMFLOAT3 length = { 1,1,1 };
+	Vector3 length = { 1,1,1 };
 };

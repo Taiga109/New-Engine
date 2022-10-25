@@ -68,7 +68,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
 	enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
 
-	sphere_fbxmodel = FBXLoader::GetInstance()->LoadModelFromFile("Sphere_FBX");
+	//sphere_fbxmodel = FBXLoader::GetInstance()->LoadModelFromFile("Sphere_FBX");
 
 	collisionmaneger = CollisionManager::GetInstance();
 	particleMan = ParticleManager::GetInstance();
@@ -83,9 +83,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	enemy->Initialize();
 	enemy->SetModel(enemymodel);
 
-	sphere_fbx = new Object3dFBX;
+	/*sphere_fbx = new Object3dFBX;
 	sphere_fbx->Initialize();
-	sphere_fbx->SetModel(sphere_fbxmodel);
+	sphere_fbx->SetModel(sphere_fbxmodel);*/
 
 	dome = dome->CreateFromObj("skydome",false);
 	domeobj = Object3d::Create(dome);
@@ -97,14 +97,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	groundobj->SetCamera(camera);
 	groundobj->SetLight(light);
 
-	spheremodel = spheremodel->CreateFromObj("sphere", false);
+	/*spheremodel = spheremodel->CreateFromObj("sphere", false);
 	sphereobj = Object3d::Create(spheremodel);
 	sphereobj->SetCamera(camera);
-	sphereobj->SetLight(light);
+	sphereobj->SetLight(light);*/
 	
 	//sphereobj->SetCollider(new SphereCollider);
 
-	player->Initialize(object1, model1);
+	
 	//camera->SetDistance({ 50.0f });
 	//camera->SetEye({ 0,60,-70 });
 	camera->SetTarget({ 0,1,0 });
@@ -120,16 +120,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	//5手を振る
 	//6歩き
 	domeobj->SetPosition({ 0,0,0 });
-	sphereobj->SetPosition({ 0,5,0 });
-	sphere_fbx->SetPosition({ 0,5,0 });
+	//sphereobj->SetPosition({ 0,5,0 });
+//	sphere_fbx->SetPosition({ 0,5,0 });
 	object1->SetPosition({ 0,0,-20 });
-	sphere_fbx->SetScale({0.1,0.1,0.1});
+	//sphere_fbx->SetScale({0.1,0.1,0.1});
 	object1->SetScale(scale);
 	enemy->SetScale(scale);
 	pos = object1->GetPos();
 	camera->SetEye({ pos });
 	
-	sphere_fbx->setCollider(new SphereCollider({0,0.5,0},0.5));
+	enemy->setCollider(new SphereCollider({0,0.5,0},0.5));
 	
 	
 }
@@ -139,10 +139,9 @@ void GameScene::Update()
 
 	groundobj->Update();
 	domeobj->Update();
-	sphereobj->Update();
+	//sphereobj->Update();
 	light->Update();
-	sphere_fbx->Update();
-	player->update(object1, input);
+	//sphere_fbx->Update();
 	object1->Update();
 	enemy->Update();
 	camera->Update();
@@ -290,7 +289,7 @@ void GameScene::Draw()
 	// 3Dオブクジェクトの描画
 	domeobj->Draw();
 	object1->Draw(cmdList);
-	sphere_fbx->Draw(cmdList);
+	//sphere_fbx->Draw(cmdList);
 	//enemy->Draw(cmdList);
 	//sphereobj->Draw();
 	enemy->Draw(cmdList);
@@ -303,13 +302,13 @@ void GameScene::Draw()
 	/// </summary>
 	//imgui 描画前処理
 
-	//ImGui::Begin("Rendering Test Menu");
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	///*ImGui::SetWindowSize(
-	//	ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
-	//);*/
-	//ImGui::SetWindowSize(ImVec2(500, 200));
-	//ImGui::End();
+	ImGui::Begin("Rendering Test Menu");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(
+		ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
+	);
+	ImGui::SetWindowSize(ImVec2(500, 200));
+	ImGui::End();
 
 
 	// 3Dオブジェクト描画後処理
