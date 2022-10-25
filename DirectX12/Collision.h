@@ -25,5 +25,8 @@ public:
 	//‹…‚Æ‹…‚Ì“–‚½‚è”»’è
 	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 		DirectX::XMVECTOR* inter = nullptr, DirectX::XMVECTOR* reject = nullptr);
+	//‹…‚ÆAABB‚Ì“–‚½‚è”»’è
+	static bool CheckSphere2AABB(const Sphere& sphere, const AABB& aabb, DirectX::XMVECTOR* inter = nullptr);
+
 };
 

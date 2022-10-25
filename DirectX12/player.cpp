@@ -1,45 +1,107 @@
 #include "player.h"
+#include "Input.h"
+#include "DebugCamera.h"
+#include "AABBCollision.h"
+#include "SphereCollider.h"
+#include "ParticleManager.h"
 
 void player::Initialize(Object3dFBX* fbx, FbxModel* model)
 {
 	fbx->Initialize();
 	fbx->SetModel(model);
-	//pos = fbx->GetPos();
 	fbx->iniAnimation();
 
+	using namespace DirectX;
+}
+player* player::Create(FbxModel* model)
+{
+	//3dオブジェクトのインスタンスを生成
+	player* instance = new player();
+	if (instance == nullptr)
+	{
+		return nullptr;
+	}
+
+	//初期化
+	if (!instance->Initialize())
+	{
+		delete instance;
+		assert(0);
+	}
+	//モデルのセット
+	if (model)
+	{
+		instance->SetModel(model);
+	}
+	return instance;
 }
 
-void player::move(Input* input, Object3dFBX* fbx)
+bool player::Initialize()
 {
+	if (!Object3dFBX::Initialize())
+	{
+		return false;
+	}
+	XMVECTOR offset = { 0,0,0,0 };
+	XMFLOAT3 scale = {10,10,10};
+	setCollider(new AABBCollision(offset,scale));
+
+	return true;
 	
-	//if (input->PushKey(DIK_A))	//左
-	//{
-	//	pos.x -= moveSpead;
-	//}
-	//else if (input->PushKey(DIK_D))	//右
-	//{
-	//	pos.x += moveSpead;
-	//}
-	//if (input->PushKey(DIK_S))	//後ろ
-	//{
-	//	pos.z -= moveSpead;
-	//}
-	//else if (input->PushKey(DIK_W))	//前
-	//{
-	//	pos.z += moveSpead;
-	//}
-	//fbx->SetPosition({ pos.x,pos.y,pos.z });
 }
 
-void player::update(Object3dFBX* fbx, Input* input)
+void player::Update()
 {
-	move(input, fbx);
+	Input* input = Input::GetInstance();
 
-	fbx->Update();
+	if (input->PushKey(DIK_A))
+	{
+		rotation.y -= 2.0f;
+	}
+
+	if (input->PushKey(DIK_D))
+	{
+		rotation.y += 2.0f;
+	}
+
+	//移動ベクトルをY軸回りの角度で回転
+	XMVECTOR move = { 0,0,0.1f,0 };
+	XMMATRIX matRot =
+		XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	move = XMVector3TransformNormal(move, matRot);
+	/*if (input->PushKey(DIK_S))
+	{
+		position.x -= move.m128_f32[0];
+		position.y -= move.m128_f32[1];
+		position.z -= move.m128_f32[2];
+
+
+	}
+	else if (input->PushKey(DIK_W))
+	{
+		position.x += move.m128_f32[0];
+		position.y += move.m128_f32[1];
+		position.z += move.m128_f32[2];
+
+	}*/
+	
+	Object3dFBX::Update();
 }
 
-void player::Draw(Object3dFBX* fbx, ID3D12GraphicsCommandList* cmdlist)
+void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 {
 
-	fbx->Draw(cmdlist);
+	for (int i = 0; i < 1; i++)
+	{
+		const float rnd_vel = 0.5f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		XMFLOAT3 pos = { info.inter.m128_f32[0]-10, info.inter.m128_f32[1], info.inter.m128_f32[2]-10 };
+		ParticleManager::GetInstance()->Add(20,
+			pos, vel, XMFLOAT3(), 0.0f, 5.0f);
+	}
 }
+
+

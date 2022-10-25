@@ -1,5 +1,6 @@
 #pragma once
 #include "CollisionInfo.h"
+#include "CollisionInfo_FBX.h"
 #include "CollisionTypes.h"
 #include "Object3d.h"
 #include "3d/Object3dFBX.h"
@@ -31,6 +32,12 @@ public:
 	//衝突時コールバック関数
 	inline void OnCollision(const CollisionInfo& info) {
 		object3d->OnCollision(info);
+		
+	}
+
+	inline void OnCollisionFBX(const CollisionInfo_FBX& infofbx) {
+		
+		object3dfbx->OnCollisionFBX(infofbx);
 	}
 protected:
 	Object3d* object3d = nullptr;

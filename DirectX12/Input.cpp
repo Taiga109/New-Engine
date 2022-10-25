@@ -183,3 +183,9 @@ Input::MouseMove Input::GetMouseMove()
 	tmp.lZ = currentMouseState.lZ;
 	return tmp;
 }
+
+Input* Input::GetInstance()
+{
+	static Input instance;
+	return &instance;
+}

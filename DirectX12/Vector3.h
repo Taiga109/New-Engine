@@ -1,47 +1,91 @@
 #pragma once
-
 #include <DirectXMath.h>
 
 using namespace DirectX;
 
-class Vector3:public XMFLOAT3 {
-public:
-	//コンストラクタ
-	Vector3();
-	Vector3(float x, float y, float z);
+struct Vector3 : public XMFLOAT3 {
+	Vector3() {
+		this->x = 0;
+		this->y = 0;
+		this->z = 0;
+	};
+	Vector3(float x, float y, float z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+	Vector3(XMFLOAT3 num) {
+		this->x = num.x;
+		this->y = num.y;
+		this->z = num.z;
+	}
+	Vector3(const XMVECTOR& other) :XMFLOAT3() {
+		XMVECTOR temp = other;
+		XMStoreFloat3(this, temp);
+	}
 
-	//メンバ関数
-	const float length();
-	Vector3& normalize();
-	const float dot(const Vector3& v);
-	const Vector3 cross(const Vector3& v);
+	//演算
+	inline bool operator == (const Vector3& r) const { return x == r.x && y == r.y && z == r.z; }
+	inline bool operator != (const Vector3& r) const { return x != r.x || y != r.y || z != r.z; }
+	inline XMVECTOR operator *(const float r) const { return Vector3(x * r, y * r, z * r); }
+	inline XMVECTOR operator /(const float r) const { return Vector3(x / r, y / r, z / r); }
 
-	//単項演算子オーバーロード
-	const Vector3 operator+();
-	const Vector3 operator-();
+	//二項演算
+	Vector3 operator+=(const Vector3& r) {
+		*this = *this + r;
+		return *this;
+	}
+	Vector3 operator-=(const Vector3& r) {
+		*this = *this + -r;
+		return *this;
+	}
 
-	//代入演算子オーバーロード
-	Vector3& operator+=(const Vector3& v);
-	Vector3& operator-=(const Vector3& v);
-	Vector3& operator*=(float s);
-	Vector3& operator/=(float s);
+	Vector3 operator*=(const Vector3& r) {
+		*this = *this * r;
+		return *this;
+	}
 
+	Vector3 operator*=(const float& r) {
+		*this = *this * r;
+		return *this;
+	}
+
+	Vector3 operator=(const float& r) {
+		*this = Vector3(r, r, r);
+		return *this;
+	}
+	// ベクトルの内積
+	float VDot(Vector3 In) const { return x * In.x + y * In.y + z * In.z; }
+	// ベクトルの外積
+	Vector3 VCross(Vector3 In) const { return Vector3(y * In.z - z * In.y, z * In.x - x * In.z, x * In.y - y * In.x); }
+	// ベクトルのスケーリング
+	Vector3 VScale(float Scale) { Vector3 Result = { x * Scale, y * Scale, z * Scale }; return Result; }
+
+	//代入
+	Vector3& operator=(const XMVECTOR& other) {
+		XMVECTOR temp = other;
+		XMStoreFloat3(this, temp);
+		return *this;
+	}
+	//キャスト
+	operator XMVECTOR() const {
+		return XMLoadFloat3(this);
+	}
+	//長さ
+	float Length() const {
+		return (static_cast<Vector3>(XMVector3Length(XMVECTOR(*this)))).x;
+	}
+	//長さ二乗
+	float LengthSq() const {
+		return powf(this->Length(), 2);
+	}
+	//正規表現
+	Vector3 Normal() {
+		return XMVector3Normalize(XMVECTOR(*this));
+	}
+	//正規化
+	Vector3 Normalize() {
+		*this = XMVector3Normalize(XMVECTOR(*this));
+		return *this;
+	}
 };
-
-//2項演算子オーバーロード
-//※いろんな引数(引数の型と順序)のパターンに対応するため、以下のように準備している
-const XMFLOAT3 operator+(const XMFLOAT3& v1, const XMFLOAT3& v2);
-const XMFLOAT3 operator-(const XMFLOAT3& v1, const XMFLOAT3& v2);
-const XMFLOAT3 operator*(const XMFLOAT3& v, float s);
-const XMFLOAT3 operator*(float s, const XMFLOAT3& v);
-const XMFLOAT3 operator/(const XMFLOAT3& v, float s);
-
-//補間関数
-//線形補間(1次関数補間)
-const XMFLOAT3 lerp(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeInQuad(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeOutQuad(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeInOutQuad(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeInQuint(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeOutQuint(const XMFLOAT3& start, const XMFLOAT3& end, const float t);
-const XMFLOAT3 easeInOutQuint(const XMFLOAT3& start, const XMFLOAT3& end, const float t);

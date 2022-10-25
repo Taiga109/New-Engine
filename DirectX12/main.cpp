@@ -1,11 +1,10 @@
-﻿
+
 #include"GameBase.h"
 //# Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	GameBase game;
 	game.Initialize();
-	
 	
 	while (true)  // ゲームループ
 	{

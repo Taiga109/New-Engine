@@ -17,6 +17,8 @@
 #include "Light.h"
 #include "player.h"
 #include "3d/Object3d.h"
+#include "CollisionManager.h"
+#include "3d/ParticleManager.h"
 
 //#include "Light.h"
 /// <summary>
@@ -75,14 +77,22 @@ private: // メンバ変数
 	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
 	FbxModel* enemymodel = nullptr;
-	Object3dFBX* object1 = nullptr;
+	player* object1 = nullptr;
 	Object3dFBX* enemy = nullptr;
-	player* player = nullptr;
+
+	Object3dFBX* sphere_fbx = nullptr;
+	FbxModel* sphere_fbxmodel = nullptr;
 
 	Model* dome = nullptr;
 	Object3d* domeobj = nullptr;
 	Model* groundmodel = nullptr;
 	Object3d* groundobj = nullptr;
+
+	Model* spheremodel = nullptr;
+	Object3d* sphereobj = nullptr;
+
+	CollisionManager* collisionmaneger = nullptr;
+	ParticleManager* particleMan = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
