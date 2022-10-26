@@ -1,5 +1,4 @@
 #include "GameBase.h"
-
 #include "fbxsdk.h"
 #include "FBXLoader.h"
 
@@ -87,7 +86,6 @@ void GameBase::Draw()
 
 	//レンダーテクスチャへの描画
 	//postEffect->PreDrawScene(dxCommon->GetCommandList());
-
 	//postEffect->PostDrawScene(dxCommon->GetCommandList());
 	// 描画開始
 	dxCommon->PreDraw();

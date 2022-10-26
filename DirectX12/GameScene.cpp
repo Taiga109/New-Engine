@@ -21,7 +21,6 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-	
 	safe_delete(dome);
 	safe_delete(domeobj);
 	safe_delete(light);
@@ -38,7 +37,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	//Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 	camera = new Camera(WinApp::window_width, WinApp::window_height);
 	this->dxCommon = dxCommon;
-	
+
 
 	Object3dFBX::SetDevice(dxCommon->GetDevice());
 	Object3dFBX::SetCamera(camera);
@@ -88,12 +87,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	sphere_fbx->Initialize();
 	sphere_fbx->SetModel(sphere_fbxmodel);*/
 
-	dome = dome->CreateFromObj("skydome",false);
+	dome = dome->CreateFromObj("skydome", false);
 	domeobj = Object3d::Create(dome);
 	domeobj->SetCamera(camera);
 	domeobj->SetLight(light);
 
-	groundmodel = groundmodel->CreateFromObj("ground",false);
+	groundmodel = groundmodel->CreateFromObj("ground", false);
 	groundobj = Object3d::Create(groundmodel);
 	groundobj->SetCamera(camera);
 	groundobj->SetLight(light);
@@ -102,10 +101,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	sphereobj = Object3d::Create(spheremodel);
 	sphereobj->SetCamera(camera);
 	sphereobj->SetLight(light);*/
-	
-	//sphereobj->SetCollider(new SphereCollider);
 
-	
+	//sphereobj->SetCollider(new SphereCollider);
 	//camera->SetDistance({ 50.0f });
 	//camera->SetEye({ 0,60,-70 });
 	camera->SetTarget({ 0,1,0 });
@@ -122,22 +119,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	//6歩き
 	domeobj->SetPosition({ 0,0,0 });
 	//sphereobj->SetPosition({ 0,5,0 });
-//	sphere_fbx->SetPosition({ 0,5,0 });
+	//sphere_fbx->SetPosition({ 0,5,0 });
 	object1->SetPosition({ 0,0,-20 });
 	//sphere_fbx->SetScale({0.1,0.1,0.1});
 	object1->SetScale(scale);
 	enemy->SetScale(scale);
 	pos = object1->GetPos();
 	camera->SetEye({ pos });
-	
-	enemy->setCollider(new SphereCollider({0,0.5,0},0.5));
-	
-	
+
+	enemy->setCollider(new SphereCollider({ 0,0.5,0 }, 0.5));
 }
 void GameScene::Update()
 {
-	
-
 	groundobj->Update();
 	domeobj->Update();
 	//sphereobj->Update();
@@ -154,29 +147,6 @@ void GameScene::Update()
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
 		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
 	{
-		/*if (input->PushKey(DIK_A))
-		{
-			pos.x -= 0.1;
-
-		}
-		else if (input->PushKey(DIK_D))
-		{
-			pos.x += 0.1;
-
-		}
-
-
-		if (input->PushKey(DIK_S))
-		{
-			pos.z -= 0.1;
-
-		}
-		else if (input->PushKey(DIK_W))
-		{
-			pos.z += 0.1;
-
-		}*/
-		//->SetPosition(pos);
 		//move(input);
 	}
 	//移動終わったら変更
@@ -286,7 +256,7 @@ void GameScene::Draw()
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
-	
+
 	// 3Dオブクジェクトの描画
 	domeobj->Draw();
 	object1->Draw(cmdList);
@@ -297,7 +267,7 @@ void GameScene::Draw()
 	groundobj->Draw();
 	// パーティクルの描画
 	particleMan->Draw(cmdList);
-	
+
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
@@ -306,12 +276,10 @@ void GameScene::Draw()
 	ImGui::Begin("Rendering Test Menu");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(
-		ImVec2(500,200), ImGuiCond_::ImGuiCond_FirstUseEver
+		ImVec2(500, 200), ImGuiCond_::ImGuiCond_FirstUseEver
 	);
 	ImGui::SetWindowSize(ImVec2(500, 200));
 	ImGui::End();
-
-
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 #pragma endregion
@@ -330,8 +298,6 @@ void GameScene::Draw()
 
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
-
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
@@ -340,6 +306,6 @@ void GameScene::Draw()
 void GameScene::move(Input* input)
 {
 	moveani = true;
-	
+
 }
 
