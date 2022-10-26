@@ -153,7 +153,7 @@ void GameScene::Update()
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
 		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
 	{
-		if (input->PushKey(DIK_A))
+		/*if (input->PushKey(DIK_A))
 		{
 			pos.x -= 0.1;
 
@@ -174,9 +174,9 @@ void GameScene::Update()
 		{
 			pos.z += 0.1;
 
-		}
+		}*/
 		//->SetPosition(pos);
-		move(input);
+		//move(input);
 	}
 	//移動終わったら変更
 	else if (moveani == true && animeNum == 6)
@@ -252,7 +252,7 @@ void GameScene::Update()
 		object1->AnimetionBlend(beforanimeNun, animeNum);
 		beforanimeNun = animeNum;
 	}
-	object1->SetPosition(pos);
+	//object1->SetPosition(pos);
 	{
 		static XMVECTOR lightDir = { 0,1,5,0 };
 

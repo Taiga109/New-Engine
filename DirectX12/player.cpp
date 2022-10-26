@@ -35,6 +35,7 @@ bool player::Initialize()
 	{
 		return false;
 	}
+	
 	XMVECTOR offset = { 0,0,0,0 };
 	XMFLOAT3 scale = {10,10,10};
 	setCollider(new AABBCollision(offset,scale));
@@ -46,38 +47,41 @@ bool player::Initialize()
 void player::Update()
 {
 	Input* input = Input::GetInstance();
-
-	if (input->PushKey(DIK_A))
+	pos = player::GetPos();
+	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
+		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
 	{
-		rotation.y -= 2.0f;
-	}
+		if (input->PushKey(DIK_A))
+		{
+			pos.x -= 0.1;
 
-	if (input->PushKey(DIK_D))
-	{
-		rotation.y += 2.0f;
-	}
+		}
+		else if (input->PushKey(DIK_D))
+		{
+			pos.x += 0.1;
 
+		}
+
+
+		if (input->PushKey(DIK_S))
+		{
+			pos.z -= 0.1;
+
+		}
+		else if (input->PushKey(DIK_W))
+		{
+			pos.z += 0.1;
+
+		}
+		
+	}
+	
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðYŽ²‰ñ‚è‚ÌŠp“x‚Å‰ñ“]
-	XMVECTOR move = { 0,0,0.1f,0 };
+	/*XMVECTOR move = { 0,0,0.1f,0 };
 	XMMATRIX matRot =
 		XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	move = XMVector3TransformNormal(move, matRot);
-	/*if (input->PushKey(DIK_S))
-	{
-		position.x -= move.m128_f32[0];
-		position.y -= move.m128_f32[1];
-		position.z -= move.m128_f32[2];
-
-
-	}
-	else if (input->PushKey(DIK_W))
-	{
-		position.x += move.m128_f32[0];
-		position.y += move.m128_f32[1];
-		position.z += move.m128_f32[2];
-
-	}*/
-	
+	move = XMVector3TransformNormal(move, matRot);*/
+	player::SetPosition(pos);
 	Object3dFBX::Update();
 }
 

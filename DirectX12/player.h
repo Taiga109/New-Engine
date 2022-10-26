@@ -1,6 +1,7 @@
 #pragma once
 #include "Object3dFBX.h"
 #include "ParticleManager.h"
+
 using namespace DirectX;
 
 class player :public Object3dFBX
@@ -21,14 +22,15 @@ public:
 public:
 
 	bool Initialize()override;
-	
+
 	void Update()override;
 
 	void OnCollisionFBX(const CollisionInfo_FBX& info)override;
 
 
 
-protected:
-
+private:
+	
+	XMFLOAT3 pos = { 0,0,0 };
 };
 
