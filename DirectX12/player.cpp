@@ -53,24 +53,24 @@ void player::Update()
 	{
 		if (input->PushKey(DIK_A))
 		{
-			pos.x -= 0.1;
+			pos.x -= 0.5;
 
 		}
 		else if (input->PushKey(DIK_D))
 		{
-			pos.x += 0.1;
+			pos.x += 0.5;
 
 		}
 
 
 		if (input->PushKey(DIK_S))
 		{
-			pos.z -= 0.1;
+			pos.z -= 0.5;
 
 		}
 		else if (input->PushKey(DIK_W))
 		{
-			pos.z += 0.1;
+			pos.z += 0.5;
 
 		}
 		
