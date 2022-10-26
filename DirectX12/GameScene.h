@@ -16,6 +16,7 @@
 #include "Object3dFBX.h"
 #include "Light.h"
 #include "player.h"
+#include "enemy.h"
 #include "3d/Object3d.h"
 #include "CollisionManager.h"
 #include "3d/ParticleManager.h"
@@ -53,7 +54,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio);
+	void Initialize(DirectXCommon* dxCommon, Audio* audio);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -78,7 +79,8 @@ private: // メンバ変数
 	FbxModel* model1 = nullptr;
 	FbxModel* enemymodel = nullptr;
 	player* object1 = nullptr;
-	Object3dFBX* enemy = nullptr;
+	Enemy* enemy = nullptr;
+	//Object3dFBX* enemy = nullptr;
 
 	Object3dFBX* sphere_fbx = nullptr;
 	FbxModel* sphere_fbxmodel = nullptr;

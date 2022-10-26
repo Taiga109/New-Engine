@@ -30,7 +30,7 @@ void GameBase::Initialize()
 #pragma region 汎用機能初期化
 
 	//入力の初期化
-	input = new Input();
+	input =  Input::GetInstance();
 	input->Initialize(win->GetInstance(), win->GetHwnd());
 
 
@@ -59,7 +59,7 @@ void GameBase::Initialize()
 
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
-	gameScene->Initialize(dxCommon, input, audio);
+	gameScene->Initialize(dxCommon, audio);
 
 }
 
@@ -106,7 +106,7 @@ void GameBase::Finalize()
 {
 // 各種解放
 	safe_delete(gameScene);
-	safe_delete(input);
+	//safe_delete(input);
 	safe_delete(dxCommon);
 	safe_delete(audio);
 	safe_delete(postEffect);

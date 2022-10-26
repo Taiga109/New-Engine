@@ -28,8 +28,9 @@ GameScene::~GameScene()
 	safe_delete(sphereobj);
 }
 
-void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
+void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
+	input = Input::GetInstance();
 	// nullptrチェック
 	assert(dxCommon);
 	assert(input);
@@ -37,7 +38,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	//Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 	camera = new Camera(WinApp::window_width, WinApp::window_height);
 	this->dxCommon = dxCommon;
-	this->input = input;
+	
 
 	Object3dFBX::SetDevice(dxCommon->GetDevice());
 	Object3dFBX::SetCamera(camera);
@@ -79,10 +80,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	//object1->Initialize();
 	//object1->SetModel(model1);
 	object1 = player::Create(model1);
-	enemy = new Object3dFBX;
+	/*enemy = new Object3dFBX;
 	enemy->Initialize();
-	enemy->SetModel(enemymodel);
-
+	enemy->SetModel(enemymodel);*/
+	enemy = Enemy::Create(enemymodel);
 	/*sphere_fbx = new Object3dFBX;
 	sphere_fbx->Initialize();
 	sphere_fbx->SetModel(sphere_fbxmodel);*/
