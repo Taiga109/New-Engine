@@ -27,6 +27,7 @@ public:
 
 	void OnCollisionFBX(const CollisionInfo_FBX& info)override;
 
+	void Attack();
 
 
 private:

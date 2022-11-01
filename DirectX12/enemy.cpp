@@ -46,7 +46,7 @@ void Enemy::Update()
 	switch (phase)
 	{
 	case Enemy::Enemy_Phase::move:
-		if (turn)
+	/*	if (turn)
 		{
 			pos.x -= 0.5;
 			if (pos.x <= -20) {
@@ -59,7 +59,7 @@ void Enemy::Update()
 			if (pos.x >= 20) {
 				turn = true;
 			}
-		}
+		}*/
 		break;
 	case Enemy::Enemy_Phase::attack:
 		break;
@@ -79,17 +79,6 @@ void Enemy::Update()
 void Enemy::OnCollisionFBX(const CollisionInfo_FBX& info)
 {
 
-	for (int i = 0; i < 1; i++)
-	{
-		const float rnd_vel = 0.5f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		XMFLOAT3 pos = { info.inter.m128_f32[0] - 10, info.inter.m128_f32[1], info.inter.m128_f32[2] - 10 };
-		ParticleManager::GetInstance()->Add(20,
-			pos, vel, XMFLOAT3(), 0.0f, 5.0f);
-	}
 }
 
 

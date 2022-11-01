@@ -143,7 +143,7 @@ void GameScene::Update()
 	particleMan->Update();
 	pos = object1->GetPos();
 	camera->SetEye({ pos.x + 5,pos.y + 30,pos.z - 20 });
-	camera->SetTarget({ pos.x + 5,pos.y + 15,pos.z + 10 });
+	camera->SetTarget({ pos.x + 5,pos.y ,pos.z + 10 });
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
 		|| input->PushKey(DIK_S) || input->PushKey(DIK_W))
 	{

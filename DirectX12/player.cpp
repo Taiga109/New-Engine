@@ -35,13 +35,13 @@ bool player::Initialize()
 	{
 		return false;
 	}
-	
+
 	XMVECTOR offset = { 0,0,0,0 };
-	XMFLOAT3 scale = {10,10,10};
-	setCollider(new AABBCollision(offset,scale));
+	XMFLOAT3 scale = { 10,10,10 };
+	setCollider(new SphereCollider(offset, 5));
 
 	return true;
-	
+
 }
 
 void player::Update()
@@ -73,9 +73,9 @@ void player::Update()
 			pos.z += 0.5;
 
 		}
-		
+
 	}
-	
+
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ðYŽ²‰ñ‚è‚ÌŠp“x‚Å‰ñ“]
 	/*XMVECTOR move = { 0,0,0.1f,0 };
 	XMMATRIX matRot =
@@ -95,10 +95,17 @@ void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		XMFLOAT3 pos = { info.inter.m128_f32[0]-10, info.inter.m128_f32[1], info.inter.m128_f32[2]-10 };
+		XMFLOAT3 pos = { info.inter.m128_f32[0], info.inter.m128_f32[1], info.inter.m128_f32[2]};
 		ParticleManager::GetInstance()->Add(20,
 			pos, vel, XMFLOAT3(), 0.0f, 5.0f);
 	}
+}
+
+void player::Attack()
+{
+
+
+
 }
 
 
