@@ -75,7 +75,10 @@ void player::Update()
 		}
 
 	}
-
+	if (input->TriggerMouse(Left) || input->TriggerMouse(Right))
+	{
+		Attack();
+	}
 	//移動ベクトルをY軸回りの角度で回転
 	/*XMVECTOR move = { 0,0,0.1f,0 };
 	XMMATRIX matRot =
@@ -103,9 +106,8 @@ void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 
 void player::Attack()
 {
-
-
-
+	XMVECTOR offset = { 0,0,0,0 };
+	setCollider(new SphereCollider(offset, 15));
 }
 
 
