@@ -4,6 +4,7 @@
 #include "AABBCollision.h"
 #include "SphereCollider.h"
 #include "ParticleManager.h"
+#include "player.h"
 
 
 Enemy* Enemy::Create(FbxModel* model)
@@ -46,7 +47,7 @@ void Enemy::Update()
 	switch (phase)
 	{
 	case Enemy::Enemy_Phase::move:
-	/*	if (turn)
+		if (turn)
 		{
 			pos.x -= 0.5;
 			if (pos.x <= -20) {
@@ -59,7 +60,7 @@ void Enemy::Update()
 			if (pos.x >= 20) {
 				turn = true;
 			}
-		}*/
+		}
 		break;
 	case Enemy::Enemy_Phase::attack:
 		break;
@@ -69,7 +70,7 @@ void Enemy::Update()
 	default:
 		break;
 	}
-
+	//CheckFlag = Player->GetAttackFlag();
 
 	
 	Enemy::SetPosition(pos);
@@ -78,7 +79,7 @@ void Enemy::Update()
 
 void Enemy::OnCollisionFBX(const CollisionInfo_FBX& info)
 {
-
+	
 }
 
 

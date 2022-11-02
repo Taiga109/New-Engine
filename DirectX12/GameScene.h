@@ -109,6 +109,6 @@ private: // メンバ変数
 	int count = 0;
 	int Endtime = 120;
 	
-	
+	int enemylife = 0;
 };
 

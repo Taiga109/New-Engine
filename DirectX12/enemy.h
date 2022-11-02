@@ -1,6 +1,7 @@
 #pragma once
 #include "Object3dFBX.h"
 #include "ParticleManager.h"
+#include "player.h"
 
 using namespace DirectX;
 
@@ -34,12 +35,17 @@ public:
 
 	void OnCollisionFBX(const CollisionInfo_FBX& info)override;
 
-
+	const int& GetLife() { return Life; }
 
 private:
+
+	int Life = 3;
 
 	XMFLOAT3 pos = { 0,0,0 };
 	bool turn = false;;
 	Enemy_Phase phase= Enemy_Phase::move;
+	
+	player* Player;
+	bool CheckFlag = false;
 };
 

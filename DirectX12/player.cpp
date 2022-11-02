@@ -36,9 +36,11 @@ bool player::Initialize()
 		return false;
 	}
 
-	XMVECTOR offset = { 0,0,0,0 };
+
 	XMFLOAT3 scale = { 10,10,10 };
-	setCollider(new SphereCollider(offset, 5));
+	spherecoll = new SphereCollider(offset, Radius);
+	
+	setCollider(spherecoll);
 
 	return true;
 
@@ -75,10 +77,24 @@ void player::Update()
 		}
 
 	}
-	if (input->TriggerMouse(Left) || input->TriggerMouse(Right))
+	if (input->TriggerMouse(Left) || input->TriggerMouse(Right)||input->TriggerKey(DIK_SPACE)&& attackflag == false)
 	{
 		Attack();
 	}
+	if (attackflag == true)
+	{
+		attackcount++;
+	}
+	if (attackflag == true&& attackcount>=10)
+	{
+		Radius = 5;
+		spherecoll->SetRadius(Radius);
+		attackcount = 0;
+		attackflag = false;
+
+	}
+	
+
 	//ˆÚ“®ƒxƒNƒgƒ‹‚ğY²‰ñ‚è‚ÌŠp“x‚Å‰ñ“]
 	/*XMVECTOR move = { 0,0,0.1f,0 };
 	XMMATRIX matRot =
@@ -98,7 +114,7 @@ void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		XMFLOAT3 pos = { info.inter.m128_f32[0], info.inter.m128_f32[1], info.inter.m128_f32[2]};
+		XMFLOAT3 pos = { info.inter.m128_f32[0], info.inter.m128_f32[1], info.inter.m128_f32[2] };
 		ParticleManager::GetInstance()->Add(20,
 			pos, vel, XMFLOAT3(), 0.0f, 5.0f);
 	}
@@ -106,8 +122,10 @@ void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 
 void player::Attack()
 {
-	XMVECTOR offset = { 0,0,0,0 };
-	setCollider(new SphereCollider(offset, 15));
+	Radius = 15;
+	spherecoll->SetRadius(Radius);
+	attackflag = true;
+	
 }
 
 

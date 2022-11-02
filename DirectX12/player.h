@@ -1,6 +1,7 @@
 #pragma once
 #include "Object3dFBX.h"
 #include "ParticleManager.h"
+#include "SphereCollider.h"
 
 using namespace DirectX;
 
@@ -29,9 +30,17 @@ public:
 
 	void Attack();
 
+	const bool& GetAttackFlag() {
+		return attackflag;
+	}
 
 private:
 	
 	XMFLOAT3 pos = { 0,0,0 };
+	XMVECTOR offset = { 0,0,0,0 };
+	float Radius = 5;
+	SphereCollider* spherecoll=nullptr;
+	int attackcount = 0;
+	bool attackflag = false;
 };
 

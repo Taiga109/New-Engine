@@ -128,6 +128,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	camera->SetEye({ pos });
 
 	enemy->setCollider(new SphereCollider({ 0,0.5,0 }, 0.5));
+
+	enemylife = enemy->GetLife();
 }
 void GameScene::Update()
 {
@@ -263,7 +265,11 @@ void GameScene::Draw()
 	//sphere_fbx->Draw(cmdList);
 	//enemy->Draw(cmdList);
 	//sphereobj->Draw();
-	enemy->Draw(cmdList);
+	if (enemylife>0)
+	{
+		enemy->Draw(cmdList);
+	}
+	
 	groundobj->Draw();
 	// パーティクルの描画
 	particleMan->Draw(cmdList);
