@@ -4,6 +4,7 @@
 #include "AABBCollision.h"
 #include "SphereCollider.h"
 #include "ParticleManager.h"
+#include "PlayerAttack.h"
 
 
 player* player::Create(FbxModel* model)
@@ -77,10 +78,9 @@ void player::Update()
 		}
 
 	}
-	if (input->TriggerMouse(Left) || input->TriggerMouse(Right)||input->TriggerKey(DIK_SPACE)&& attackflag == false)
-	{
-		Attack();
-	}
+	
+		Attack(input);
+	
 	if (attackflag == true)
 	{
 		attackcount++;
@@ -120,12 +120,18 @@ void player::OnCollisionFBX(const CollisionInfo_FBX& info)
 	}
 }
 
-void player::Attack()
+void player::Attack(Input* input)
 {
-	Radius = 15;
-	spherecoll->SetRadius(Radius);
-	attackflag = true;
-	
+	if (input->TriggerMouse(Left) || input->TriggerMouse(Right) || input->TriggerKey(DIK_SPACE) && attackflag == false)
+	{
+		PlayerAttack* attack = new PlayerAttack();
+		attack->Initialize(20);
+
+		Radius = 15;
+		//spherecoll->SetRadius(Radius);
+		//playerAttack = attack;
+		attackflag = true;
+	}
 }
 
 

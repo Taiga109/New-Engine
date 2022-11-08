@@ -149,6 +149,9 @@
     <ClCompile Include="3d\Object3dFBX.cpp">
       <Filter>3D\FBX</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerAttack.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h" />
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="3d\Object3dFBX.h">
       <Filter>3D\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
