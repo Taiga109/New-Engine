@@ -16,16 +16,16 @@
 #include "Object3dFBX.h"
 #include "Light.h"
 #include "player.h"
-#include "enemy.h"
+#include "Enemy.h"
 #include "3d/Object3d.h"
 #include "CollisionManager.h"
 #include "3d/ParticleManager.h"
-
+#include "Framework.h"
 //#include "Light.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene
+class GameScene :public Framework
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -54,27 +54,22 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon, Audio* audio);
+	void Initialize(DirectXCommon* dxCommon, Audio* audio)override;
 
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update()override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw()override;
 
 	void move(Input* input);
 
 private: // メンバ変数
-	DirectXCommon* dxCommon = nullptr;
-	Input* input = nullptr;
-	//DebugCamera* Dcamera = nullptr;
-	Camera* camera = nullptr;
-	DebugText debugText;
-	Sprite* spriteBG = nullptr;
+	
 	Light* light = nullptr;
 	FbxModel* model1 = nullptr;
 	FbxModel* enemymodel = nullptr;

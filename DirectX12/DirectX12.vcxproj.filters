@@ -128,7 +128,7 @@
     <ClCompile Include="2d\DebugText.cpp">
       <Filter>2D</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
@@ -152,6 +152,7 @@
     <ClCompile Include="PlayerAttack.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h" />
@@ -254,7 +255,7 @@
     <ClInclude Include="SafeDelete.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
+    <ClInclude Include="Enemy.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
@@ -278,6 +279,7 @@
     <ClInclude Include="PlayerAttack.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Framework.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FBX.hlsli">

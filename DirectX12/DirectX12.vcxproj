@@ -170,7 +170,8 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -307,7 +308,8 @@
     <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="CollisionInfo_FBX.h" />
     <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="enemy.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="imgui\imconfig.h" />

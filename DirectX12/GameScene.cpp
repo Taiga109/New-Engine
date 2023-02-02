@@ -29,26 +29,11 @@ GameScene::~GameScene()
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 {
-	input = Input::GetInstance();
-	// nullptrチェック
-	assert(dxCommon);
-	assert(input);
-	// カメラ生成
-	//Dcamera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
-	camera = new Camera(WinApp::window_width, WinApp::window_height);
-	this->dxCommon = dxCommon;
-
-
+	Framework::Initialize(dxCommon, audio);
+	
 	Object3dFBX::SetDevice(dxCommon->GetDevice());
 	Object3dFBX::SetCamera(camera);
 	Object3dFBX::CreateGraphicsPipeline();
-	// デバッグテキスト用テクスチャ読み込み
-	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
-		assert(0);
-		return;
-	}
-	// デバッグテキスト初期化
-	debugText.Initialize(debugTextTexNumber);
 
 	// 前景スプライト生成
 
@@ -63,8 +48,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 		assert(0);
 		return;
 	}
-	// 背景スプライト生成
-	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
+	
 	model1 = FBXLoader::GetInstance()->LoadModelFromFile("model4");
 	enemymodel = FBXLoader::GetInstance()->LoadModelFromFile("robo_6");
 
@@ -126,7 +110,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Audio* audio)
 	enemy->SetScale(scale);
 	pos = object1->GetPos();
 	camera->SetEye({ pos });
-
+	enemy->SetPlayer(object1);
+	//object1->SetEnemy(enemy);
 	enemy->setCollider(new SphereCollider({ 0,0.5,0 }, 0.5));
 
 	enemylife = enemy->GetLife();
@@ -135,15 +120,17 @@ void GameScene::Update()
 {
 	groundobj->Update();
 	domeobj->Update();
-	//sphereobj->Update();
 	light->Update();
-	//sphere_fbx->Update();
 	object1->Update();
 	enemy->Update();
 	camera->Update();
-
 	particleMan->Update();
+
+
 	pos = object1->GetPos();
+	enemy->SetPlayerPos(pos);
+	enemy->SetPlayer(object1);
+	//object1->SetEnemy(enemy);
 	camera->SetEye({ pos.x + 5,pos.y + 30,pos.z - 20 });
 	camera->SetTarget({ pos.x + 5,pos.y ,pos.z + 10 });
 	if (input->PushKey(DIK_D) || input->PushKey(DIK_A)
@@ -265,11 +252,10 @@ void GameScene::Draw()
 	//sphere_fbx->Draw(cmdList);
 	//enemy->Draw(cmdList);
 	//sphereobj->Draw();
-	if (enemylife>0)
-	{
-		enemy->Draw(cmdList);
-	}
-	
+
+	enemy->Draw(cmdList);
+
+
 	groundobj->Draw();
 	// パーティクルの描画
 	particleMan->Draw(cmdList);
@@ -279,13 +265,13 @@ void GameScene::Draw()
 	/// </summary>
 	//imgui 描画前処理
 
-	ImGui::Begin("Rendering Test Menu");
+	/*ImGui::Begin("Rendering Test Menu");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(
 		ImVec2(500, 200), ImGuiCond_::ImGuiCond_FirstUseEver
 	);
 	ImGui::SetWindowSize(ImVec2(500, 200));
-	ImGui::End();
+	ImGui::End();*/
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 #pragma endregion

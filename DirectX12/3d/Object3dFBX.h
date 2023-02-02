@@ -49,7 +49,9 @@ public:
 	{
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
-		XMFLOAT3 cameraPos;//カメラ座標
+		XMFLOAT3 cameraPos;//カメラ座標	
+		float bad1;
+		XMFLOAT4 color;     // 色
 	};
 
 	struct ConstBufferDataB4
@@ -67,6 +69,7 @@ public:
 	struct ConstBufferDataSkin
 	{
 		XMMATRIX bones[MAX_BONES];
+		
 	};
 
 	struct Animation
@@ -154,6 +157,8 @@ public: //メンバ変数
 	// スケールの設定
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
+	void SetColor(XMFLOAT4 color) { this->color = color; }
+
 	const FbxTime& GetendTime() { return endTime; }
 
 	std::unique_ptr<Object3dFBX>& GetObjectDate() { return objectData; }
@@ -164,6 +169,7 @@ protected:
 	ComPtr<ID3D12Resource> constBuffTransform;
 	static Light* light;
 	//float s = 0.1;
+	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角

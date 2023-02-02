@@ -19,7 +19,7 @@ void PlayerAttack::OnCollisionFBX(const CollisionInfo_FBX& info)
 			vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
 			XMFLOAT3 pos = { info.inter.m128_f32[0], info.inter.m128_f32[1], info.inter.m128_f32[2] };
 			ParticleManager::GetInstance()->Add(20,
-				pos, vel, XMFLOAT3(), 0.0f, 5.0f);
+				pos, vel, XMFLOAT3(), 0.0f, 5.0f, { 1,1,1,1 }, { 1,1,1,1 });
 		}
 	}
 }

@@ -29,6 +29,7 @@ public: // サブクラス
 	{
 		XMFLOAT3 pos; // xyz座標
 		float scale; // スケール
+		XMFLOAT4 color;
 	};
 
 	// 定数バッファ用データ構造体
@@ -48,6 +49,8 @@ public: // サブクラス
 		using XMFLOAT3 = DirectX::XMFLOAT3;
 		using XMFLOAT4 = DirectX::XMFLOAT4;
 		using XMMATRIX = DirectX::XMMATRIX;
+
+
 	public:
 		// 座標
 		XMFLOAT3 position = {};
@@ -56,17 +59,17 @@ public: // サブクラス
 		// 加速度
 		XMFLOAT3 accel = {};
 		// 色
-		XMFLOAT3 color = {};
+		XMFLOAT4 color = {1,1,1,1};
 		// スケール
 		float scale = 1.0f;
 		// 回転
 		float rotation = 0.0f;
 		// 初期値
-		XMFLOAT3 s_color = {};
+		XMFLOAT4 s_color = {};
 		float s_scale = 1.0f;
 		float s_rotation = 0.0f;
 		// 最終値
-		XMFLOAT3 e_color = {};
+		XMFLOAT4 e_color = {};
 		float e_scale = 0.0f;
 		float e_rotation = 0.0f;
 		// 現在フレーム
@@ -101,7 +104,8 @@ public: // メンバ関数
 	/// <param name="accel">加速度</param>
 	/// <param name="start_scale">開始時スケール</param>
 	/// <param name="end_scale">終了時スケール</param>
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale );
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
+		float start_scale, float end_scale, XMFLOAT4 start_color, XMFLOAT4 end_color);
 
 	/// <summary>
 	/// デスクリプタヒープの初期化
@@ -128,6 +132,7 @@ public: // メンバ関数
 
 	inline void SetCamera(Camera* camera) { this->camera = camera; }
 	
+	inline void SetColor(XMFLOAT4 color) { this->color = color; }
 private: // メンバ変数
 	// デバイス
 	ID3D12Device* device = nullptr;
@@ -155,6 +160,8 @@ private: // メンバ変数
 	std::forward_list<Particle> particles;
 	// カメラ
 	Camera* camera = nullptr;
+
+	XMFLOAT4 color = {1,1,1,1};
 private:
 	ParticleManager() = default;
 	ParticleManager(const ParticleManager&) = delete;

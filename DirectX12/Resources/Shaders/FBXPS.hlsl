@@ -41,7 +41,7 @@ PSOutput main(VSOutput input)
 	shade_color.rgb = float3((ambient + diffuse + specular).rgb * lightcolor.rgb);
 	shade_color.a = 1;
 
-	output.target0 = texcolor;
+	output.target0 = texcolor * color;
 	output.target1 = float4(1 - (shade_color * texcolor).rgb, 1);
 	return output;
 }

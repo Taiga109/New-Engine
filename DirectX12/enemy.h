@@ -2,7 +2,7 @@
 #include "Object3dFBX.h"
 #include "ParticleManager.h"
 #include "player.h"
-
+#include "SphereCollider.h"
 using namespace DirectX;
 
 class Enemy :public Object3dFBX
@@ -33,19 +33,37 @@ public:
 
 	void Update()override;
 
+	void Draw(ID3D12GraphicsCommandList* cmdList)override;
 	void OnCollisionFBX(const CollisionInfo_FBX& info)override;
 
-	const int& GetLife() { return Life; }
 
+	const int& GetLife() { return Life; }
+	void SetPlayer(player* Player) { this->Player = Player; }
+	void SetPlayerPos(Vector3 playerpos) { this->playerpos = playerpos; }
+
+	const bool& GetAttackFlag() {
+		return EnemyAttack;
+	}
 private:
+	Enemy_Phase phase = Enemy_Phase::move;
 
 	int Life = 3;
 
-	XMFLOAT3 pos = { 0,0,0 };
-	bool turn = false;;
-	Enemy_Phase phase= Enemy_Phase::move;
-	
-	player* Player;
-	bool CheckFlag = false;
+	SphereCollider* E_spherecoll = nullptr;
+	float Radius = 5;
+	XMVECTOR offset = { 0,0,0,0 };
+
+	Vector3 playerpos = { 0,0,0 };
+	Vector3 pos = { 0,0,0 };
+	float len = 0;
+	Vector3 direction = { 0,0,0 };
+
+
+	player* Player = nullptr;
+
+	bool playerAttack = false;
+	bool EnemyAttack = false;
+	int count = 0;
+	int staycount = 0;
 };
 

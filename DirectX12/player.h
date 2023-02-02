@@ -29,20 +29,31 @@ public:
 
 	void OnCollisionFBX(const CollisionInfo_FBX& info)override;
 
+	void Draw(ID3D12GraphicsCommandList* cmdList)override;
 	void Attack(Input* input);
 
 	const bool& GetAttackFlag() {
-		return attackflag;
+		return AttackFlag;
+	}
+
+	const int& GetLife() {
+		return playerlife;
+	}
+	void setLife(int life) {
+		this->playerlife
+			= life;
 	}
 
 private:
-	
+	int playerlife = 5;
 	XMFLOAT3 pos = { 0,0,0 };
 	XMVECTOR offset = { 0,0,0,0 };
 	float Radius = 5;
-	SphereCollider* spherecoll=nullptr;
+	SphereCollider* spherecoll = nullptr;
+
 	//PlayerAttack* P_Attack = nullptr;
 	int attackcount = 0;
-	bool attackflag = false;
+	bool AttackFlag = false;
+	bool E_AttackFlag = false;
 };
 

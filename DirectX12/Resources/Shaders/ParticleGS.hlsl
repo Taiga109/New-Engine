@@ -41,7 +41,7 @@ void main(
 		//ビュー、射影変換、色
 		element.svpos = mul(mat, element.svpos);
 		element.uv = uv_array[i];
-		//element.color = input[0].color;
+		element.color = input[0].color;
 		output.Append(element);
 	}
 }

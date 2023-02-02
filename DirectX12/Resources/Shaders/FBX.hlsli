@@ -6,6 +6,8 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
+	float bad1;
+	float4 color;
 };
 
 cbuffer cbuff4 :register(b4)
@@ -43,4 +45,5 @@ struct VSOutput
 	float3 worldpos: POSITION;
 	float3 normal :NORMAL; // 法線ベクトル
 	float2 uv  :TEXCOORD; // uv値
+
 };

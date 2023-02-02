@@ -68,6 +68,7 @@ bool Object3dFBX::Initialize()
 	{
 		constMatSkin->bones[i] = XMMatrixIdentity();
 	}
+	
 	constBuffSkin->Unmap(0, nullptr);
 
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
@@ -112,6 +113,7 @@ void Object3dFBX::Update()
 	constMap->viewproj = matViewProjection;
 	constMap->world = modelTransform * matWorld;
 	constMap->cameraPos = cameraPos;
+	constMap->color = color;
 	constBuffTransform->Unmap(0, nullptr);
 
 
@@ -157,9 +159,9 @@ void Object3dFBX::Update()
 		FBXLoader::ConvertMatrixFromFbx(&matCurrendPose, fbxCurrentPose);
 		//合成してスキニング行列に
 		constMapSkin->bones[i] = globalTransform * bones[i].invInitialPose * matCurrendPose * invglobalTransform;
+	
 	}
-
-
+	
 	//if (blend)
 	//{
 	//	for (int i = 0; i < bones.size(); i++)
@@ -185,6 +187,7 @@ void Object3dFBX::Update()
 	//		constMapSkin->bones[i] = globalTransform * bones[i].invInitialPose * matCurrendPose * invglobalTransform;
 	//	}
 	//}
+	
 	constBuffSkin->Unmap(0, nullptr);
 
 	if (collider)
